@@ -1,0 +1,172 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tenken_engiflow/data/models/user_model.dart';
+
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
+  Future<Map<String, dynamic>> signInWithEmail(String email, String password) async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      
+      if (result.user != null) {
+        // Try to get user data from Firestore
+        try {
+          DocumentSnapshot userDoc = await _firestore
+              .collection('users')
+              .doc(result.user!.uid)
+              .get();
+              
+          if (userDoc.exists && userDoc.data() != null) {
+            UserModel user = UserModel.fromMap(userDoc.data() as Map<String, dynamic>);
+            return {'success': true, 'user': user, 'message': 'Login successful'};
+          } else {
+            // If user document doesn't exist, create it
+            UserModel newUser = UserModel(
+              uid: result.user!.uid,
+              email: result.user!.email ?? email,
+              displayName: result.user!.displayName ?? 'User',
+              role: 'engineer', // Default role
+              department: 'Not Assigned',
+              createdAt: DateTime.now(),
+            );
+            
+            await _firestore
+                .collection('users')
+                .doc(result.user!.uid)
+                .set(newUser.toMap());
+                
+            return {'success': true, 'user': newUser, 'message': 'Login successful (new profile created)'};
+          }
+        } catch (e) {
+          return {'success': false, 'message': 'Error accessing user data: $e'};
+        }
+      }
+      return {'success': false, 'message': 'Login failed'};
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = 'No user found with this email';
+          break;
+        case 'wrong-password':
+          errorMessage = 'Incorrect password';
+          break;
+        case 'invalid-email':
+          errorMessage = 'Invalid email format';
+          break;
+        case 'user-disabled':
+          errorMessage = 'This account has been disabled';
+          break;
+        default:
+          errorMessage = 'Login failed: ${e.message}';
+      }
+      return {'success': false, 'message': errorMessage};
+    } catch (e) {
+      return {'success': false, 'message': 'An unexpected error occurred: $e'};
+    }
+  }
+  
+  Future<Map<String, dynamic>> registerWithEmail({
+    required String email,
+    required String password,
+    required String displayName,
+    required String role,
+    required String department,
+  }) async {
+    try {
+      // Validate role
+      if (!['engineer', 'supervisor', 'admin'].contains(role.toLowerCase())) {
+        return {'success': false, 'message': 'Invalid role selected'};
+      }
+      
+      // Create user in Firebase Auth
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      
+      if (result.user != null) {
+        try {
+          // Create user document in Firestore
+          UserModel newUser = UserModel(
+            uid: result.user!.uid,
+            email: email,
+            displayName: displayName,
+            role: role.toLowerCase(),
+            department: department,
+            createdAt: DateTime.now(),
+          );
+          
+          // Save to Firestore with detailed error handling
+          await _firestore
+              .collection('users')
+              .doc(result.user!.uid)
+              .set(newUser.toMap());
+              
+          print('User document created in Firestore with ID: ${result.user!.uid}');
+          
+          return {
+            'success': true, 
+            'user': newUser, 
+            'message': 'Registration successful! You can now login.'
+          };
+        } catch (firestoreError) {
+          // If Firestore fails, delete the auth user to keep consistency
+          await result.user!.delete();
+          return {'success': false, 'message': 'Failed to save user data: $firestoreError'};
+        }
+      }
+      return {'success': false, 'message': 'Registration failed'};
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'email-already-in-use':
+          errorMessage = 'This email is already registered';
+          break;
+        case 'weak-password':
+          errorMessage = 'Password is too weak (min 6 characters)';
+          break;
+        case 'invalid-email':
+          errorMessage = 'Invalid email format';
+          break;
+        case 'operation-not-allowed':
+          errorMessage = 'Email/password accounts are not enabled';
+          break;
+        default:
+          errorMessage = 'Registration failed: ${e.message}';
+      }
+      return {'success': false, 'message': errorMessage};
+    } catch (e) {
+      return {'success': false, 'message': 'An unexpected error occurred: $e'};
+    }
+  }
+  
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+  
+  Stream<UserModel?> get userStream {
+    return _auth.authStateChanges().asyncMap((User? user) async {
+      if (user == null) return null;
+      
+      try {
+        DocumentSnapshot userDoc = await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .get();
+            
+        if (userDoc.exists && userDoc.data() != null) {
+          return UserModel.fromMap(userDoc.data() as Map<String, dynamic>);
+        }
+        return null;
+      } catch (e) {
+        return null;
+      }
+    });
+  }
+}

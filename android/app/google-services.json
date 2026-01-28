@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "357188946153",
+    "project_id": "tenken-engiflow-app",
+    "storage_bucket": "tenken-engiflow-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357188946153:android:ea5dbd75623675feae8878",
+        "android_client_info": {
+          "package_name": "com.tenken.engiflow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "357188946153-vhh0orhi4dmte1stseitbehbjqjp4teg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcBDsLEdoBz-sW-Ut3I37Vem6u0h7r61U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "357188946153-vhh0orhi4dmte1stseitbehbjqjp4teg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "357188946153-te5phle3pej130n6e1ofr80f3dk5hkek.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tenken.engiflow"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

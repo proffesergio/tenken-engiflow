@@ -1,0 +1,48 @@
+name: tenken_engiflow
+description: "Tenken EngiFlow - Japanese Engineering Company App"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase - TESTED WORKING VERSIONS
+  # FIXED: WORKING FIREBASE VERSIONS (No PigeonUserDetails error)
+  firebase_core: 2.30.0 # EXACT VERSION - DO NOT CHANGE
+  firebase_auth: 4.15.0 # EXACT VERSION - THIS IS THE FIX
+  cloud_firestore: ^4.9.0
+
+  # State Management
+  provider: ^6.1.1
+
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+
+  # Routing
+  go_router: ^12.0.1 # Add this for routing
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+  generate: true # This enables localization generation
+
+
+  # For Japanese font
+  # fonts:
+  #   - family: NotoSansJP
+  #     fonts:
+  #       - asset: fonts/NotoSansJP-Regular.ttf
+  #       - asset: fonts/NotoSansJP-Bold.ttf
+  #         weight: 700
+# Add this at the end of your pubspec.yaml
+## Removed dependency_overrides to allow pub to resolve compatible platform interface versions

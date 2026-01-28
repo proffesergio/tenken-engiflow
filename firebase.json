@@ -1,0 +1,28 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "tenken-engiflow-app",
+          "appId": "1:357188946153:android:ea5dbd75623675feae8878",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "tenken-engiflow-app",
+          "configurations": {
+            "android": "1:357188946153:android:ea5dbd75623675feae8878",
+            "ios": "1:357188946153:ios:f1dfe375b175542fae8878",
+            "macos": "1:357188946153:ios:f1dfe375b175542fae8878",
+            "web": "1:357188946153:web:871d8ff1a2496692ae8878",
+            "windows": "1:357188946153:web:7c0eb836d65cf707ae8878"
+          }
+        }
+      }
+    }
+  },
+  "emulators": {
+    "singleProjectMode": true
+  }
+}
