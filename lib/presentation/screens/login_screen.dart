@@ -6,7 +6,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:tenken_engiflow/presentation/providers/auth_provider.dart';
 import 'package:tenken_engiflow/presentation/screens/register_screen.dart';
 import 'package:tenken_engiflow/presentation/screens/dashboard_screen.dart';
-
+import 'package:tenken_engiflow/presentation/screens/role_based_dashboard.dart';
+import 'package:tenken_engiflow/l10n/app_localizations.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -155,20 +156,6 @@ Future<void> _testFirestore() async {
                           color: Colors.grey[700],
                         ),
                       ),
-                      // Only in debug mode
-                    //   if (kDebugMode) { 
-                    //     const SizedBox(height: 20),
-                    //     ElevatedButton(
-                    //         onPressed: () async {
-                    //         await _testFirestore();
-                    //         },
-                    //         child: const Text('Test Firestore Connection'),
-                    //         style: ElevatedButton.styleFrom(
-                    //         backgroundColor: Colors.orange,
-                    //         foregroundColor: Colors.white,
-                    //         ),
-                    //     ),
-                    //     }
                     ],
                   ),
                 ),
@@ -289,7 +276,7 @@ Future<void> _testFirestore() async {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const DashboardScreen(),
+                                        builder: (context) => const RoleBasedDashboard(),
                                       ),
                                     );
                                   }
@@ -313,8 +300,8 @@ Future<void> _testFirestore() async {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text(
-                                'Login',
+                            : Text(
+                                AppLocalizations.of(context)!.login,
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                               ),
                       ),
@@ -327,7 +314,7 @@ Future<void> _testFirestore() async {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account? ",
+                      AppLocalizations.of(context)!.dontHaveAccount,
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     TextButton(
@@ -344,8 +331,8 @@ Future<void> _testFirestore() async {
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      child: const Text(
-                        'Register here',
+                      child: Text(
+                        AppLocalizations.of(context)!.registerHere,
                         style: TextStyle(
                           color: Color(0xFF37474F),
                           fontWeight: FontWeight.w600,
@@ -386,6 +373,18 @@ Future<void> _testFirestore() async {
                     ],
                   ),
                 ),
+                // In the build method, add a test button only in debug mode:
+                if (kDebugMode) ...[
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: _testFirestore,
+                    icon: const Icon(Icons.bug_report),
+                    label: const Text('Test Firestore'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

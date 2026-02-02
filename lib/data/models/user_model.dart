@@ -5,6 +5,9 @@ class UserModel {
   final String role; // 'engineer', 'supervisor', 'admin'
   final String department;
   final DateTime createdAt;
+  final List<String>? managedDepartments; // For supervisors
+  final List<String>? teamMemberIds; // For supervisors
+  final String? supervisorId; // For engineers
   
   UserModel({
     required this.uid,
@@ -13,6 +16,9 @@ class UserModel {
     required this.role,
     required this.department,
     required this.createdAt,
+    this.managedDepartments,
+    this.teamMemberIds,
+    this.supervisorId,
   });
   
   Map<String, dynamic> toMap() {
@@ -23,6 +29,9 @@ class UserModel {
       'role': role,
       'department': department,
       'createdAt': createdAt.toIso8601String(),
+      'managedDepartments': managedDepartments,
+      'teamMemberIds': teamMemberIds,
+      'supervisorId': supervisorId,
     };
   }
   
@@ -34,6 +43,18 @@ class UserModel {
       role: map['role'],
       department: map['department'],
       createdAt: DateTime.parse(map['createdAt']),
+      managedDepartments: map['managedDepartments'] != null 
+          ? List<String>.from(map['managedDepartments'])
+          : null,
+      teamMemberIds: map['teamMemberIds'] != null
+          ? List<String>.from(map['teamMemberIds'])
+          : null,
+      supervisorId: map['supervisorId'],
     );
   }
+  
+  // Helper methods
+  bool get isEngineer => role == 'engineer';
+  bool get isSupervisor => role == 'supervisor';
+  bool get isAdmin => role == 'admin';
 }

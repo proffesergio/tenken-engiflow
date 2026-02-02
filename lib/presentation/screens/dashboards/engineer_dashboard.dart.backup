@@ -1,0 +1,474 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tenken_engiflow/presentation/providers/auth_provider.dart';
+import 'package:tenken_engiflow/presentation/components/task_card.dart';
+import 'package:tenken_engiflow/presentation/components/stat_card.dart';
+import 'package:tenken_engiflow/l10n/app_localizations.dart';
+class EngineerDashboard extends StatefulWidget {
+  final int selectedTab;
+  
+  const EngineerDashboard({super.key, required this.selectedTab});
+  
+  @override
+  State<EngineerDashboard> createState() => _EngineerDashboardState();
+}
+
+class _EngineerDashboardState extends State<EngineerDashboard> {
+  final List<String> _taskStatuses = ['All', 'Pending', 'In Progress', 'Completed'];
+  String _selectedStatus = 'All';
+  
+  @override
+  Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final userData = authProvider.userData;
+    
+    // Show different content based on selected tab
+    switch (widget.selectedTab) {
+      case 0: // Dashboard tab
+        return _buildDashboardTab(userData);
+      case 1: // Tasks tab
+        return _buildTasksTab();
+      case 2: // Reports tab
+        return _buildReportsTab();
+      case 3: // Profile tab
+        return _buildProfileTab(userData);
+      default:
+        return _buildDashboardTab(userData);
+    }
+  }
+  
+  Widget _buildDashboardTab(Map<String, dynamic>? userData) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Welcome Card
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: const Color(0xFF37474F),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '今日の作業',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Good morning, ${userData?['displayName'] ?? 'Engineer'}',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xCCFFFFFF),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    _buildStatusIndicator('Present', Colors.green),
+                    const SizedBox(width: 12),
+                    _buildStatusIndicator('On Time', Colors.blue),
+                    const SizedBox(width: 12),
+                    _buildStatusIndicator('No Alerts', Colors.green),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          
+          const SizedBox(height: 24),
+          
+          // Quick Stats
+          const Text(
+            'Today\'s Overview',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF37474F),
+            ),
+          ),
+          const SizedBox(height: 16),
+          
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 1.2,
+            children: [
+              StatCard(
+                title: '今日の作業',
+                value: '5',
+                icon: Icons.assignment,
+                color: Colors.blue,
+                subtitle: 'Tasks assigned',
+              ),
+              StatCard(
+                title: '完了済み',
+                value: '3',
+                icon: Icons.check_circle,
+                color: Colors.green,
+                subtitle: 'Tasks completed',
+              ),
+              StatCard(
+                title: '点検',
+                value: '2',
+                icon: Icons.inventory_2,
+                color: Colors.orange,
+                subtitle: 'Inspections due',
+              ),
+              StatCard(
+                title: 'レポート',
+                value: '1',
+                icon: Icons.description,
+                color: Colors.purple,
+                subtitle: 'Reports pending',
+              ),
+            ],
+          ),
+          
+          const SizedBox(height: 24),
+          
+          // Today's Tasks
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                '今日のタスク',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF37474F),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Text(
+                  '優先度順',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          
+          // Task List
+          Column(
+            children: [
+              TaskCard(
+                title: '機械点検 - 生産ラインA',
+                description: '定期点検とメンテナンス',
+                priority: 'High',
+                status: 'In Progress',
+                time: '09:00 - 11:00',
+                onTap: () {},
+              ),
+              const SizedBox(height: 12),
+              TaskCard(
+                title: '安全確認報告',
+                description: '工場内安全設備の確認',
+                priority: 'Medium',
+                status: 'Pending',
+                time: '13:00 - 14:00',
+                onTap: () {},
+              ),
+              const SizedBox(height: 12),
+              TaskCard(
+                title: '品質チェック',
+                description: '製品品質の最終確認',
+                priority: 'Low',
+                status: 'Completed',
+                time: 'Completed',
+                onTap: () {},
+              ),
+            ],
+          ),
+          
+          const SizedBox(height: 24),
+          
+          // Quick Actions
+          const Text(
+            'クイックアクション',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF37474F),
+            ),
+          ),
+          const SizedBox(height: 16),
+          
+          Row(
+            children: [
+              Expanded(
+                child: _buildActionButton(
+                  icon: Icons.add_circle_outline,
+                  label: '作業記録',
+                  color: const Color(0xFF37474F),
+                  onTap: () {},
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildActionButton(
+                  icon: Icons.report_problem,
+                  label: '問題報告',
+                  color: Colors.orange,
+                  onTap: () {},
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildActionButton(
+                  icon: Icons.timer,
+                  label: '時間記録',
+                  color: Colors.blue,
+                  onTap: () {},
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildStatusIndicator(String text, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: color.withOpacity(0.3)),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 12,
+          color: color,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+  
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFE0E0E0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Icon(icon, size: 32, color: color),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  Widget _buildTasksTab() {
+    return const Center(
+      child: Text(
+        'Tasks Management',
+        style: TextStyle(fontSize: 24),
+      ),
+    );
+  }
+  
+  Widget _buildReportsTab() {
+    return const Center(
+      child: Text(
+        'Reports',
+        style: TextStyle(fontSize: 24),
+      ),
+    );
+  }
+  
+  Widget _buildProfileTab(Map<String, dynamic>? userData) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color(0xFFE0E0E0)),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF5F5F5),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: const Icon(
+                    Icons.person,
+                    size: 50,
+                    color: Color(0xFF37474F),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  userData?['displayName'] ?? 'Engineer',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF37474F),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  userData?['email'] ?? 'engineer@tenken.com',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF37474F).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        'Engineer',
+                        style: TextStyle(
+                          color: const Color(0xFF37474F),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        userData?['department'] ?? 'Engineering',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          
+          const SizedBox(height: 24),
+          
+          // Performance Metrics
+          const Text(
+            'Performance Metrics',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF37474F),
+            ),
+          ),
+          const SizedBox(height: 16),
+          
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            children: [
+              _buildMetricCard('Attendance', '98%', Icons.check_circle, Colors.green),
+              _buildMetricCard('Task Completion', '95%', Icons.assignment_turned_in, Colors.blue),
+              _buildMetricCard('Quality Score', '92%', Icons.star, Colors.orange),
+              _buildMetricCard('Safety Compliance', '100%', Icons.security, Colors.green),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildMetricCard(String title, String value, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE0E0E0)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 24, color: color),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF37474F),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

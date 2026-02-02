@@ -35,30 +35,43 @@ class AuthProvider with ChangeNotifier {
     });
   }
   
+  // Add null safety check in _loadUserData
   Future<void> _loadUserData(String uid) async {
     try {
-      DocumentSnapshot userDoc = await _firestore
+      final DocumentSnapshot userDoc = await _firestore
           .collection('users')
           .doc(uid)
           .get();
       
-      if (userDoc.exists) {
+      if (userDoc.exists && userDoc.data() != null) {
         _userData = userDoc.data() as Map<String, dynamic>;
       } else {
-        // Create default user data if not exists
         _userData = {
           'uid': uid,
-          'email': _firebaseUser?.email,
+          'email': _firebaseUser?.email ?? 'unknown',
           'displayName': _firebaseUser?.displayName ?? 'User',
           'role': 'engineer',
           'department': 'Not assigned',
           'createdAt': DateTime.now().toIso8601String(),
         };
-        await _firestore.collection('users').doc(uid).set(_userData!);
+        try {
+          await _firestore.collection('users').doc(uid).set(_userData!);
+        } catch (e) {
+          print('⚠️ Could not create user document: $e');
+        }
       }
       notifyListeners();
     } catch (e) {
-      print('Error loading user data: $e');
+      print('❌ Error loading user data: $e');
+      // Set default data on error
+      _userData = {
+        'uid': uid,
+        'email': _firebaseUser?.email ?? 'unknown',
+        'displayName': 'User',
+        'role': 'engineer',
+        'department': 'Not assigned',
+      };
+      notifyListeners();
     }
   }
   

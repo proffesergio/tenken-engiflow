@@ -320,6 +320,38 @@ For bug reports or feature suggestions, please contact the development team at `
 **Developed with precision for Japanese engineering excellence** by **_Hossain Billal_** (ビラル ホセイン)
 **日本のエンジニアリング優秀性のために精密に開発**
 
-© 206 Tenken EngiFlow. All rights reserved.
+© 2026 Tenken EngiFlow. All rights reserved.
 
 </div>
+
+---
+
+🎯 ROLE-BASED ARCHITECTURE PLAN
+Role Definitions & Permissions:
+
+Role - Dashboard Focus - Features - Access Level
+
+Engineer - Task execution Daily work entries, inspections, personal - reports - Personal data only
+
+Supervisor - Team oversight Team progress, report approval, task assignment - Team-level access
+
+Admin - System management User management, analytics, system configuration - Full system access
+
+---
+
+📱 TESTING DIFFERENT ROLES:
+To test different roles, you'll need to:
+
+Register multiple users with different roles
+
+Check Firebase Console to verify role assignment
+
+Logout and login with different accounts
+
+Example Test Users:
+
+Engineer: engineer@tenken.com / Password123
+
+Supervisor: supervisor@tenken.com / Password123
+
+Admin: admin@tenken.com / Password123

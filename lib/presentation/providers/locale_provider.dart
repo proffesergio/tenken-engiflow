@@ -16,4 +16,11 @@ class LocaleProvider with ChangeNotifier {
         : const Locale('en');
     notifyListeners();
   }
+  
+  String get currentLanguage {
+    return _locale.languageCode == 'en' ? 'English' : '日本語';
+  }
+  
+  bool get isEnglish => _locale.languageCode == 'en';
+  bool get isJapanese => _locale.languageCode == 'ja';
 }
