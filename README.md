@@ -101,6 +101,61 @@
 
 ---
 
+## 🎛️ Admin Dashboard (NEW! ✨)
+
+### Overview (管理者ダッシュボード)
+
+The **Admin Dashboard** provides comprehensive system administration tools with 5 main tabs:
+
+**管理者ダッシュボード**は、5つのメインタブを備えた包括的なシステム管理ツールです：
+
+### 5 Admin Tabs:
+
+1. **📊 Overview Tab**
+   - System statistics (total users, engineers, supervisors, admins)
+   - Recent activity feed
+   - System health status indicators
+
+2. **👥 User Management Tab**
+   - Add/Edit/Delete users
+   - Search users by name or email
+   - Filter users by role
+   - Bulk user operations (future)
+
+3. **⚙️ System Configuration Tab**
+   - Department management (add, edit, view teams)
+   - Company settings (maintenance mode, company name)
+   - Notification preferences (push, email, SMS)
+
+4. **📈 Reports & Analytics Tab**
+   - Key performance indicators (KPIs)
+   - Department performance metrics
+   - Custom date range filtering
+   - Export to PDF/Excel (coming soon)
+
+5. **🔐 Permissions Management Tab**
+   - Role-based permission matrix
+   - Engineer/Supervisor/Admin permission levels
+   - Fine-grained access control configuration
+
+### Admin Dashboard Documentation
+
+- 📖 **QUICK_START.md** - Quick reference guide (5 min read)
+- 📚 **DEVELOPMENT_INSTRUCTIONS.md** - Complete how-to guide
+- 📋 **ADMIN_DASHBOARD_GUIDE.md** - Technical implementation details
+- 📊 **ADMIN_DASHBOARD_SUMMARY.md** - Project summary & status
+
+### Access Admin Dashboard
+
+```
+1. Login with admin credentials
+2. Dashboard automatically shows all 5 tabs
+3. Available only to users with role: "admin"
+4. Full bilingual support (English/Japanese)
+```
+
+---
+
 ## 🚀 Installation Guide
 
 ### Prerequisites 前提条件
