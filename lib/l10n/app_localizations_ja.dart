@@ -18,6 +18,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get register => '登録';
 
   @override
+  String get registerHere => 'こちらから登録';
+
+  @override
   String get email => 'メールアドレス';
 
   @override
@@ -52,9 +55,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dontHaveAccount => 'アカウントをお持ちでないですか？';
-
-  @override
-  String get registerHere => 'こちらから登録';
 
   @override
   String get loginHere => 'こちらからログイン';
@@ -396,5 +396,152 @@ class AppLocalizationsJa extends AppLocalizations {
   String get continueText => '続ける';
 
   @override
-  String get quick_stats => 'Quick Stats';
+  String get quick_stats => 'クイック統計';
+
+  @override
+  String get systemManagement => 'システム管理';
+
+  @override
+  String get systemStatistics => 'システム統計';
+
+  @override
+  String get totalUsers => 'ユーザー総数';
+
+  @override
+  String get totalEngineers => 'エンジニア総数';
+
+  @override
+  String get userManagement => 'ユーザー管理';
+
+  @override
+  String get addNewUser => '新規ユーザー追加';
+
+  @override
+  String get searchUsers => 'ユーザーをお名前またはメールで検索';
+
+  @override
+  String get allRoles => 'すべての役割';
+
+  @override
+  String get noUsersFound => 'ユーザーが見つかりません';
+
+  @override
+  String get create => '作成';
+
+  @override
+  String get fillAllFields => 'すべてのフィールドに入力してください';
+
+  @override
+  String get userCreatedSuccess => 'ユーザーを作成しました';
+
+  @override
+  String get editUser => 'ユーザー編集';
+
+  @override
+  String get userUpdatedSuccess => 'ユーザーを更新しました';
+
+  @override
+  String get deleteUser => 'ユーザー削除';
+
+  @override
+  String get confirmDeleteUser => 'このユーザーを削除してもよろしいですか？';
+
+  @override
+  String get userDeletedSuccess => 'ユーザーを削除しました';
+
+  @override
+  String get systemConfiguration => 'システム設定';
+
+  @override
+  String get departments => '部門';
+
+  @override
+  String get noDepartments => '部門が見つかりません';
+
+  @override
+  String get addDepartment => '部門追加';
+
+  @override
+  String get members => 'メンバー';
+
+  @override
+  String get companySettings => '会社設定';
+
+  @override
+  String get companyName => '会社名';
+
+  @override
+  String get maintenanceMode => 'メンテナンスモード';
+
+  @override
+  String get maintenanceModeDesc => '管理者以外のすべてのユーザーのアクセスを無効にする';
+
+  @override
+  String get systemRoles => 'システムロール';
+
+  @override
+  String get notificationSettings => '通知設定';
+
+  @override
+  String get enablePushNotifications => 'プッシュ通知を有効にする';
+
+  @override
+  String get enableEmailNotifications => 'メール通知を有効にする';
+
+  @override
+  String get enableSmsNotifications => 'SMS通知を有効にする';
+
+  @override
+  String get enterDepartmentName => '部門名を入力してください';
+
+  @override
+  String get departmentAddedSuccess => '部門を追加しました';
+
+  @override
+  String get editDepartment => '部門編集';
+
+  @override
+  String get departmentName => '部門名';
+
+  @override
+  String get departmentUpdatedSuccess => '部門を更新しました';
+
+  @override
+  String get reportsAnalytics => 'レポート＆分析';
+
+  @override
+  String get dateRange => '日付範囲';
+
+  @override
+  String get select => '選択';
+
+  @override
+  String get keyMetrics => '主要指標';
+
+  @override
+  String get recentActivity => '最近のアクティビティ';
+
+  @override
+  String get systemStatus => 'システムステータス';
+
+  @override
+  String get exportReport => 'レポートエクスポート';
+
+  @override
+  String get permissionMatrix => '権限マトリックス';
+
+  @override
+  String get action => '操作';
+
+  @override
+  String get rolePermissions => '役割権限';
+
+  @override
+  String get permissionsDesc => 'システム内で各役割が実行できることを設定します';
+
+  @override
+  String get editPermissions => '権限を編集';
+
+  @override
+  String get permissionsUpdated => '権限が更新されました';
 }

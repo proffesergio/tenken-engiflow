@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tenken_engiflow/presentation/providers/auth_provider.dart';
 import 'package:tenken_engiflow/presentation/providers/supervisor_provider.dart';
+import 'package:tenken_engiflow/presentation/providers/admin_provider.dart';
 import 'package:tenken_engiflow/presentation/providers/locale_provider.dart';
 import 'package:tenken_engiflow/presentation/screens/login_screen.dart';
 import 'package:tenken_engiflow/presentation/screens/role_based_dashboard.dart';
@@ -42,6 +43,7 @@ class TenkenEngiFlow extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => SupervisorProvider()),
+        ChangeNotifierProvider(create: (_) => AdminProvider()),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
       child: Consumer<LocaleProvider>(

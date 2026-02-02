@@ -18,6 +18,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get register => 'Register';
 
   @override
+  String get registerHere => 'Register here';
+
+  @override
   String get email => 'Email';
 
   @override
@@ -52,9 +55,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dontHaveAccount => 'Don\'t have an account?';
-
-  @override
-  String get registerHere => 'Register here';
 
   @override
   String get loginHere => 'Login here';
@@ -397,4 +397,151 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quick_stats => 'Quick Stats';
+
+  @override
+  String get systemManagement => 'System Management';
+
+  @override
+  String get systemStatistics => 'System Statistics';
+
+  @override
+  String get totalUsers => 'Total Users';
+
+  @override
+  String get totalEngineers => 'Total Engineers';
+
+  @override
+  String get userManagement => 'User Management';
+
+  @override
+  String get addNewUser => 'Add New User';
+
+  @override
+  String get searchUsers => 'Search users by name or email';
+
+  @override
+  String get allRoles => 'All Roles';
+
+  @override
+  String get noUsersFound => 'No users found';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get fillAllFields => 'Please fill all fields';
+
+  @override
+  String get userCreatedSuccess => 'User created successfully';
+
+  @override
+  String get editUser => 'Edit User';
+
+  @override
+  String get userUpdatedSuccess => 'User updated successfully';
+
+  @override
+  String get deleteUser => 'Delete User';
+
+  @override
+  String get confirmDeleteUser => 'Are you sure you want to delete this user?';
+
+  @override
+  String get userDeletedSuccess => 'User deleted successfully';
+
+  @override
+  String get systemConfiguration => 'System Configuration';
+
+  @override
+  String get departments => 'Departments';
+
+  @override
+  String get noDepartments => 'No departments found';
+
+  @override
+  String get addDepartment => 'Add Department';
+
+  @override
+  String get members => 'Members';
+
+  @override
+  String get companySettings => 'Company Settings';
+
+  @override
+  String get companyName => 'Company Name';
+
+  @override
+  String get maintenanceMode => 'Maintenance Mode';
+
+  @override
+  String get maintenanceModeDesc => 'Disable access for all users except admins';
+
+  @override
+  String get systemRoles => 'System Roles';
+
+  @override
+  String get notificationSettings => 'Notification Settings';
+
+  @override
+  String get enablePushNotifications => 'Enable Push Notifications';
+
+  @override
+  String get enableEmailNotifications => 'Enable Email Notifications';
+
+  @override
+  String get enableSmsNotifications => 'Enable SMS Notifications';
+
+  @override
+  String get enterDepartmentName => 'Please enter department name';
+
+  @override
+  String get departmentAddedSuccess => 'Department added successfully';
+
+  @override
+  String get editDepartment => 'Edit Department';
+
+  @override
+  String get departmentName => 'Department Name';
+
+  @override
+  String get departmentUpdatedSuccess => 'Department updated successfully';
+
+  @override
+  String get reportsAnalytics => 'Reports & Analytics';
+
+  @override
+  String get dateRange => 'Date Range';
+
+  @override
+  String get select => 'Select';
+
+  @override
+  String get keyMetrics => 'Key Metrics';
+
+  @override
+  String get recentActivity => 'Recent Activity';
+
+  @override
+  String get systemStatus => 'System Status';
+
+  @override
+  String get exportReport => 'Export Report';
+
+  @override
+  String get permissionMatrix => 'Permission Matrix';
+
+  @override
+  String get action => 'Action';
+
+  @override
+  String get rolePermissions => 'Role Permissions';
+
+  @override
+  String get permissionsDesc => 'Configure what each role can do in the system';
+
+  @override
+  String get editPermissions => 'Edit Permissions';
+
+  @override
+  String get permissionsUpdated => 'Permissions updated successfully';
 }

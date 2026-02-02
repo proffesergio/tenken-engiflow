@@ -113,6 +113,12 @@ abstract class AppLocalizations {
   /// **'Register'**
   String get register;
 
+  /// No description provided for @registerHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Register here'**
+  String get registerHere;
+
   /// No description provided for @email.
   ///
   /// In en, this message translates to:
@@ -184,12 +190,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Don\'t have an account?'**
   String get dontHaveAccount;
-
-  /// No description provided for @registerHere.
-  ///
-  /// In en, this message translates to:
-  /// **'Register here'**
-  String get registerHere;
 
   /// No description provided for @loginHere.
   ///
@@ -874,6 +874,300 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quick Stats'**
   String get quick_stats;
+
+  /// No description provided for @systemManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'System Management'**
+  String get systemManagement;
+
+  /// No description provided for @systemStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'System Statistics'**
+  String get systemStatistics;
+
+  /// No description provided for @totalUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Users'**
+  String get totalUsers;
+
+  /// No description provided for @totalEngineers.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Engineers'**
+  String get totalEngineers;
+
+  /// No description provided for @userManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'User Management'**
+  String get userManagement;
+
+  /// No description provided for @addNewUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New User'**
+  String get addNewUser;
+
+  /// No description provided for @searchUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Search users by name or email'**
+  String get searchUsers;
+
+  /// No description provided for @allRoles.
+  ///
+  /// In en, this message translates to:
+  /// **'All Roles'**
+  String get allRoles;
+
+  /// No description provided for @noUsersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No users found'**
+  String get noUsersFound;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @fillAllFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill all fields'**
+  String get fillAllFields;
+
+  /// No description provided for @userCreatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'User created successfully'**
+  String get userCreatedSuccess;
+
+  /// No description provided for @editUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit User'**
+  String get editUser;
+
+  /// No description provided for @userUpdatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'User updated successfully'**
+  String get userUpdatedSuccess;
+
+  /// No description provided for @deleteUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete User'**
+  String get deleteUser;
+
+  /// No description provided for @confirmDeleteUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this user?'**
+  String get confirmDeleteUser;
+
+  /// No description provided for @userDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'User deleted successfully'**
+  String get userDeletedSuccess;
+
+  /// No description provided for @systemConfiguration.
+  ///
+  /// In en, this message translates to:
+  /// **'System Configuration'**
+  String get systemConfiguration;
+
+  /// No description provided for @departments.
+  ///
+  /// In en, this message translates to:
+  /// **'Departments'**
+  String get departments;
+
+  /// No description provided for @noDepartments.
+  ///
+  /// In en, this message translates to:
+  /// **'No departments found'**
+  String get noDepartments;
+
+  /// No description provided for @addDepartment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Department'**
+  String get addDepartment;
+
+  /// No description provided for @members.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get members;
+
+  /// No description provided for @companySettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Settings'**
+  String get companySettings;
+
+  /// No description provided for @companyName.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Name'**
+  String get companyName;
+
+  /// No description provided for @maintenanceMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance Mode'**
+  String get maintenanceMode;
+
+  /// No description provided for @maintenanceModeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable access for all users except admins'**
+  String get maintenanceModeDesc;
+
+  /// No description provided for @systemRoles.
+  ///
+  /// In en, this message translates to:
+  /// **'System Roles'**
+  String get systemRoles;
+
+  /// No description provided for @notificationSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Settings'**
+  String get notificationSettings;
+
+  /// No description provided for @enablePushNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Push Notifications'**
+  String get enablePushNotifications;
+
+  /// No description provided for @enableEmailNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Email Notifications'**
+  String get enableEmailNotifications;
+
+  /// No description provided for @enableSmsNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable SMS Notifications'**
+  String get enableSmsNotifications;
+
+  /// No description provided for @enterDepartmentName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter department name'**
+  String get enterDepartmentName;
+
+  /// No description provided for @departmentAddedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Department added successfully'**
+  String get departmentAddedSuccess;
+
+  /// No description provided for @editDepartment.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Department'**
+  String get editDepartment;
+
+  /// No description provided for @departmentName.
+  ///
+  /// In en, this message translates to:
+  /// **'Department Name'**
+  String get departmentName;
+
+  /// No description provided for @departmentUpdatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Department updated successfully'**
+  String get departmentUpdatedSuccess;
+
+  /// No description provided for @reportsAnalytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports & Analytics'**
+  String get reportsAnalytics;
+
+  /// No description provided for @dateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Date Range'**
+  String get dateRange;
+
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get select;
+
+  /// No description provided for @keyMetrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Key Metrics'**
+  String get keyMetrics;
+
+  /// No description provided for @recentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activity'**
+  String get recentActivity;
+
+  /// No description provided for @systemStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'System Status'**
+  String get systemStatus;
+
+  /// No description provided for @exportReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Report'**
+  String get exportReport;
+
+  /// No description provided for @permissionMatrix.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Matrix'**
+  String get permissionMatrix;
+
+  /// No description provided for @action.
+  ///
+  /// In en, this message translates to:
+  /// **'Action'**
+  String get action;
+
+  /// No description provided for @rolePermissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Role Permissions'**
+  String get rolePermissions;
+
+  /// No description provided for @permissionsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure what each role can do in the system'**
+  String get permissionsDesc;
+
+  /// No description provided for @editPermissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Permissions'**
+  String get editPermissions;
+
+  /// No description provided for @permissionsUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions updated successfully'**
+  String get permissionsUpdated;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
