@@ -1168,6 +1168,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Permissions updated successfully'**
   String get permissionsUpdated;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

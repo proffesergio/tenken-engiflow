@@ -1,0 +1,140 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ────────────────────────────────────────────────────────────────
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function hasRole(role) {
+      return isSignedIn() && userDoc().role == role;
+    }
+
+    function isActive() {
+      return isSignedIn() && userDoc().get('isActive', true) == true;
+    }
+
+    function isAdmin()      { return hasRole('admin')      && isActive(); }
+    function isSupervisor() { return hasRole('supervisor') && isActive(); }
+    function isEngineer()   { return hasRole('engineer')   && isActive(); }
+
+    function sameDept(deptField) {
+      return userDoc().department == resource.data[deptField];
+    }
+
+    // ── Users collection ───────────────────────────────────────────────────────
+
+    match /users/{uid} {
+      // Any active signed-in user can read their own doc
+      allow read: if isSignedIn() && request.auth.uid == uid;
+
+      // Supervisors can read users in their department
+      allow read: if isSupervisor() &&
+                     resource.data.department == userDoc().department;
+
+      // Admins can read/write all user docs
+      allow read, write: if isAdmin();
+
+      // Users can update only their own fcmTokens and language fields
+      allow update: if isSignedIn() &&
+                       request.auth.uid == uid &&
+                       request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['fcmTokens', 'language']);
+    }
+
+    // ── Tasks collection ───────────────────────────────────────────────────────
+
+    match /tasks/{taskId} {
+      // Engineers: read/update only tasks assigned to them
+      allow read:   if isEngineer() && resource.data.assignedTo == request.auth.uid;
+      allow update: if isEngineer() &&
+                       resource.data.assignedTo == request.auth.uid &&
+                       // Engineers may only change status and add notes
+                       request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['status', 'notes', 'startedAt', 'submittedAt', 'updatedAt']);
+
+      // Supervisors: read all tasks in their department; create and status-update
+      allow read:   if isSupervisor() && sameDept('department');
+      allow create: if isSupervisor();
+      allow update: if isSupervisor() && sameDept('department');
+
+      // Admins: full access
+      allow read, write: if isAdmin();
+    }
+
+    // ── Issues collection ──────────────────────────────────────────────────────
+
+    match /issues/{issueId} {
+      // Engineers: create issues; read/update their own
+      allow create: if isEngineer();
+      allow read:   if isEngineer() && resource.data.reporterId == request.auth.uid;
+      allow update: if isEngineer() &&
+                       resource.data.reporterId == request.auth.uid &&
+                       request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['title', 'description', 'severity', 'category', 'updatedAt']);
+
+      // Supervisors: read/update issues in their department
+      allow read, update: if isSupervisor() && sameDept('department');
+
+      // Admins: full access
+      allow read, write: if isAdmin();
+    }
+
+    // ── Work entries collection ────────────────────────────────────────────────
+
+    match /work_entries/{entryId} {
+      // Engineers: full access to their own entries
+      allow read, write: if isEngineer() && (
+        resource == null || resource.data.engineerId == request.auth.uid
+      );
+
+      // Supervisors: read and approve/reject entries in their department
+      allow read: if isSupervisor() && sameDept('department');
+      allow update: if isSupervisor() &&
+                       sameDept('department') &&
+                       request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['status', 'reviewedBy', 'reviewedAt', 'reviewNotes']);
+
+      // Admins: full access
+      allow read, write: if isAdmin();
+    }
+
+    // ── Attendance collection ──────────────────────────────────────────────────
+
+    match /attendance/{recordId} {
+      // Engineers: read/write their own attendance records
+      allow read, write: if isEngineer() && (
+        resource == null || resource.data.userId == request.auth.uid
+      );
+
+      // Supervisors: read attendance in their department
+      allow read: if isSupervisor() && sameDept('department');
+
+      // Admins: full access
+      allow read, write: if isAdmin();
+    }
+
+    // ── Departments collection ─────────────────────────────────────────────────
+
+    match /departments/{deptId} {
+      // All active users can read department list
+      allow read: if isActive();
+      // Only admins can modify departments
+      allow write: if isAdmin();
+    }
+
+    // ── System config ──────────────────────────────────────────────────────────
+
+    match /system_config/{docId} {
+      allow read: if isActive();
+      allow write: if isAdmin();
+    }
+  }
+}

@@ -35,16 +35,26 @@ class AuthProvider with ChangeNotifier {
     });
   }
   
-  // Add null safety check in _loadUserData
   Future<void> _loadUserData(String uid) async {
     try {
       final DocumentSnapshot userDoc = await _firestore
           .collection('users')
           .doc(uid)
           .get();
-      
+
       if (userDoc.exists && userDoc.data() != null) {
-        _userData = userDoc.data() as Map<String, dynamic>;
+        final data = userDoc.data() as Map<String, dynamic>;
+
+        // Block deactivated accounts immediately.
+        if (data['isActive'] == false) {
+          _error = 'Your account has been deactivated. Contact your administrator.';
+          _userData = null;
+          await _auth.signOut();
+          notifyListeners();
+          return;
+        }
+
+        _userData = data;
       } else {
         _userData = {
           'uid': uid,
@@ -53,23 +63,21 @@ class AuthProvider with ChangeNotifier {
           'role': 'engineer',
           'department': 'Not assigned',
           'createdAt': DateTime.now().toIso8601String(),
+          'isActive': true,
         };
         try {
           await _firestore.collection('users').doc(uid).set(_userData!);
-        } catch (e) {
-          print('⚠️ Could not create user document: $e');
-        }
+        } catch (_) {}
       }
       notifyListeners();
     } catch (e) {
-      print('❌ Error loading user data: $e');
-      // Set default data on error
       _userData = {
         'uid': uid,
         'email': _firebaseUser?.email ?? 'unknown',
         'displayName': 'User',
         'role': 'engineer',
         'department': 'Not assigned',
+        'isActive': true,
       };
       notifyListeners();
     }

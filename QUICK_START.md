@@ -3,6 +3,7 @@
 ## 📱 Access the Admin Dashboard
 
 ### Login Credentials (Test):
+
 ```
 Email: admin@company.com
 Password: AdminPass123!
@@ -10,6 +11,7 @@ Role: admin
 ```
 
 ### First Login Steps:
+
 1. Open the app with `flutter run`
 2. Click "Login"
 3. Enter admin credentials
@@ -21,11 +23,14 @@ Role: admin
 ## 🎯 5-Tab Navigation
 
 ### Tab 1️⃣: Overview (Default)
+
 **What to see:** System statistics, recent activity, system status
 **What to do:** Monitor system health at a glance
 
 ### Tab 2️⃣: User Management
+
 **What to do:**
+
 - Click "Add New User" to create users
 - Search box to find users
 - Click "Edit" to modify user details
@@ -33,21 +38,27 @@ Role: admin
 - Use role filter to view specific roles
 
 ### Tab 3️⃣: System Configuration
+
 **Sub-tabs:**
+
 - **Departments**: Add/edit departments
 - **Settings**: Configure company info and maintenance mode
 - **Notifications**: Toggle notification types
 
 ### Tab 4️⃣: Reports & Analytics
+
 **What to see:** System metrics, department performance
 **What to do:**
+
 - Select date range with calendar
 - View key performance indicators
 - Export reports (buttons ready for implementation)
 
 ### Tab 5️⃣: Permissions
+
 **What to see:** Role-based access matrix
 **What to do:**
+
 - View Engineer/Supervisor/Admin permissions
 - Click "Edit Permissions" to modify
 - Understand system access control
@@ -57,6 +68,7 @@ Role: admin
 ## ⚡ Quick Actions
 
 ### Add a New User (30 seconds):
+
 ```
 1. Go to User Management tab
 2. Click "Add New User"
@@ -71,6 +83,7 @@ Role: admin
 ```
 
 ### Add a Department (20 seconds):
+
 ```
 1. Go to System Configuration > Departments tab
 2. Click "Add Department"
@@ -82,6 +95,7 @@ Role: admin
 ```
 
 ### Change Language (5 seconds):
+
 ```
 1. Look at top-right corner of app bar
 2. Click language switcher icon
@@ -93,21 +107,22 @@ Role: admin
 
 ## 📊 Key Metrics at a Glance
 
-| Metric | Location | Refreshes |
-|--------|----------|-----------|
-| Total Users | Overview Tab | Real-time |
-| Engineers Count | Overview Tab | Real-time |
-| Supervisors Count | Overview Tab | Real-time |
-| Admins Count | Overview Tab | Real-time |
-| Department Count | Reports Tab | On load |
-| Attendance Rate | Reports Tab | Custom date range |
-| Task Completion | Reports Tab | Custom date range |
+| Metric            | Location     | Refreshes         |
+| ----------------- | ------------ | ----------------- |
+| Total Users       | Overview Tab | Real-time         |
+| Engineers Count   | Overview Tab | Real-time         |
+| Supervisors Count | Overview Tab | Real-time         |
+| Admins Count      | Overview Tab | Real-time         |
+| Department Count  | Reports Tab  | On load           |
+| Attendance Rate   | Reports Tab  | Custom date range |
+| Task Completion   | Reports Tab  | Custom date range |
 
 ---
 
 ## 🔍 Search & Filter Examples
 
 ### Search Users:
+
 ```
 Search for "john":
 ✓ Shows all users with "john" in name or email
@@ -117,6 +132,7 @@ Search for "engineer@":
 ```
 
 ### Filter by Role:
+
 ```
 Select "Engineer":
 ✓ Shows only engineering staff
@@ -133,6 +149,7 @@ Select "All Roles":
 ## 💾 Data Persistence
 
 All data automatically saves to Firebase Firestore:
+
 - ✅ Users created → Saved to Firestore
 - ✅ Users edited → Updated immediately
 - ✅ Users deleted → Removed from database
@@ -146,14 +163,16 @@ All data automatically saves to Firebase Firestore:
 ## 🆘 Common Issues & Quick Fixes
 
 ### "Admin Dashboard not showing"
+
 ```
-Fix: 
+Fix:
 1. Ensure logged-in user role = "admin"
 2. Check Firestore users collection
 3. Verify role field says "admin"
 ```
 
 ### "Users not loading"
+
 ```
 Fix:
 1. Check internet connection
@@ -163,6 +182,7 @@ Fix:
 ```
 
 ### "Language not changing"
+
 ```
 Fix:
 1. Click language switcher again
@@ -172,6 +192,7 @@ Fix:
 ```
 
 ### "Can't create new user"
+
 ```
 Fix:
 1. Ensure all form fields filled
@@ -185,6 +206,7 @@ Fix:
 ## 🎨 UI Tips
 
 ### Color Meanings:
+
 - 🟢 **Green** (#388E3C): Admin/System color
 - 🔵 **Blue** (#0288D1): Information
 - 🟠 **Orange** (#F57C00): Warnings/Alerts
@@ -192,6 +214,7 @@ Fix:
 - 🔴 **Red** (#E53935): Delete/Error
 
 ### Button Types:
+
 - ✅ **Filled Button** (Green): Primary actions
 - ℹ️ **Text Button** (Gray): Secondary actions
 - 🗑️ **Red Button**: Delete/Danger actions
@@ -201,6 +224,7 @@ Fix:
 ## 📱 Responsive Design
 
 The Admin Dashboard works on:
+
 - ✅ Desktop (Windows, Mac, Linux)
 - ✅ Tablets (iPad, Android tablets)
 - ✅ Mobile (Android phones, iPhones)
@@ -212,6 +236,7 @@ The Admin Dashboard works on:
 ## 🔐 Permission Reference
 
 ### Engineer Can:
+
 - ✅ View own tasks
 - ✅ Update own task status
 - ✅ View own attendance
@@ -219,6 +244,7 @@ The Admin Dashboard works on:
 - ❌ Cannot manage users
 
 ### Supervisor Can:
+
 - ✅ Do everything Engineer can do
 - ✅ Manage team members
 - ✅ Assign tasks to team
@@ -227,6 +253,7 @@ The Admin Dashboard works on:
 - ❌ Cannot manage system config
 
 ### Admin Can:
+
 - ✅ Do everything everyone can do
 - ✅ Manage all users (add/edit/delete)
 - ✅ Configure system settings
@@ -239,12 +266,14 @@ The Admin Dashboard works on:
 ## 📞 Need Help?
 
 ### Documentation Files:
+
 1. **DEVELOPMENT_INSTRUCTIONS.md** - Detailed how-to guide
 2. **ADMIN_DASHBOARD_GUIDE.md** - Technical reference
 3. **ADMIN_DASHBOARD_SUMMARY.md** - Overview and status
 4. **README.md** - Project information
 
 ### Code Comments:
+
 - All files have detailed comments
 - Each method has documentation
 - Complex logic is well-explained
@@ -254,6 +283,7 @@ The Admin Dashboard works on:
 ## ✨ Hidden Features
 
 ### Pro Tips:
+
 ```
 1. Double-click user card to view full details
 2. Use Tab key to navigate dialogs
@@ -282,13 +312,13 @@ The Admin Dashboard works on:
 
 ## 📊 Keyboard Shortcuts
 
-| Shortcut | Action |
-|----------|--------|
-| `Tab` | Navigate form fields |
-| `Enter` | Submit form |
-| `Esc` | Close dialog |
-| `Ctrl+F` | Search page content |
-| `Ctrl+S` | Save (auto-save) |
+| Shortcut | Action               |
+| -------- | -------------------- |
+| `Tab`    | Navigate form fields |
+| `Enter`  | Submit form          |
+| `Esc`    | Close dialog         |
+| `Ctrl+F` | Search page content  |
+| `Ctrl+S` | Save (auto-save)     |
 
 ---
 
@@ -297,6 +327,7 @@ The Admin Dashboard works on:
 Your Admin Dashboard is **fully functional** and ready to use! 🎉
 
 **Next Steps:**
+
 1. Test with sample data
 2. Train admin users
 3. Configure system settings

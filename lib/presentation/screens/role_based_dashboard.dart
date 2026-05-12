@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tenken_engiflow/core/services/fcm_service.dart';
 import 'package:tenken_engiflow/presentation/providers/auth_provider.dart';
-import 'package:tenken_engiflow/presentation/providers/locale_provider.dart';
 import 'package:tenken_engiflow/presentation/components/role_navigation.dart';
 import 'package:tenken_engiflow/presentation/components/language_switcher.dart';
 import 'package:tenken_engiflow/presentation/screens/dashboards/engineer_dashboard.dart';
@@ -18,6 +18,14 @@ class RoleBasedDashboard extends StatefulWidget {
 
 class _RoleBasedDashboardState extends State<RoleBasedDashboard> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize FCM after login — runs asynchronously, errors are silent
+    final uid = context.read<AuthProvider>().firebaseUser?.uid;
+    if (uid != null) FcmService.initialize(uid);
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -97,9 +105,9 @@ class _RoleBasedDashboardState extends State<RoleBasedDashboard> {
           margin: const EdgeInsets.only(right: 8),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: roleColor.withOpacity(0.1),
+            color: roleColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: roleColor.withOpacity(0.3)),
+            border: Border.all(color: roleColor.withValues(alpha: 0.3)),
           ),
           child: Text(
             role.toUpperCase(),

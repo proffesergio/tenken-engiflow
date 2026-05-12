@@ -180,5 +180,6 @@
   "permissionsDesc": "Configure what each role can do in the system",
   "editPermissions": "Edit Permissions",
   "permissionsUpdated": "Permissions updated successfully",
-  "allRoles": "All Roles"
+  "allRoles": "All Roles",
+  "notifications": "Notifications"
 }

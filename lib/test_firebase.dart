@@ -18,7 +18,7 @@ class FirebaseTester {
       
       // 3. Test Write
       print('\n3. Testing Firestore write...');
-      const testId = 'flutter_test_${DateTime.now().millisecondsSinceEpoch}';
+      final testId = 'flutter_test_${DateTime.now().millisecondsSinceEpoch}';
       await firestore.collection('debug_tests').doc(testId).set({
         'test': 'Firestore write test',
         'timestamp': DateTime.now().toIso8601String(),

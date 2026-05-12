@@ -544,4 +544,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get permissionsUpdated => 'Permissions updated successfully';
+
+  @override
+  String get notifications => 'Notifications';
 }

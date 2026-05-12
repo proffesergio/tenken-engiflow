@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"H:\\\\Desktop\\\\Projects\\\\Flutter Projects Again\\\\Japan Reporting App\\\\tenken_engiflow\" -Force)",
+      "Bash(Select-Object -Property Name, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(Get-ChildItem -Path \"H:\\\\Desktop\\\\Projects\\\\Flutter Projects Again\\\\Japan Reporting App\\\\tenken_engiflow\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)",
+      "Bash(flutter analyze *)",
+      "Bash(grep \"lib\\\\\\\\\\\\\\\\presentation\\\\\\\\\\\\\\\\screens\\\\\\\\\\\\\\\\engineer\\\\|lib\\\\\\\\\\\\\\\\presentation\\\\\\\\\\\\\\\\providers\\\\\\\\\\\\\\\\task\\\\|lib\\\\\\\\\\\\\\\\presentation\\\\\\\\\\\\\\\\providers\\\\\\\\\\\\\\\\attendance\\\\|lib\\\\\\\\\\\\\\\\presentation\\\\\\\\\\\\\\\\providers\\\\\\\\\\\\\\\\issue\\\\|lib\\\\\\\\\\\\\\\\data\\\\\\\\\\\\\\\\models\\\\\\\\\\\\\\\\issue\\\\|lib\\\\\\\\\\\\\\\\data\\\\\\\\\\\\\\\\models\\\\\\\\\\\\\\\\work\")",
+      "Bash(Select-String -Pattern \"\\(admin|reports_analytics|tasks_tab|issues_tab\\)\")",
+      "Bash(Remove-Item \"H:\\\\Desktop\\\\Projects\\\\Flutter Projects Again\\\\Japan Reporting App\\\\tenken_engiflow\\\\lib\\\\presentation\\\\screens\\\\dashboards\\\\admin\\\\system_configuration_tab.dart\" -Force)",
+      "Bash(Remove-Item \"H:\\\\Desktop\\\\Projects\\\\Flutter Projects Again\\\\Japan Reporting App\\\\tenken_engiflow\\\\lib\\\\presentation\\\\screens\\\\dashboards\\\\admin\\\\permissions_tab.dart\" -Force)",
+      "Bash(Write-Host \"Deleted both orphaned files\")",
+      "Bash(dir \"H:\\\\Desktop\\\\Projects\\\\Flutter Projects Again\\\\Japan Reporting App\\\\tenken_engiflow\" /b)",
+      "Bash(flutter pub *)"
+    ]
+  }
+}

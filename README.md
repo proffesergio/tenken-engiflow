@@ -410,3 +410,425 @@ Engineer: engineer@tenken.com / Password123
 Supervisor: supervisor@tenken.com / Password123
 
 Admin: admin@tenken.com / Password123
+
+---
+
+Tenken EngiFlow — Production Architecture Plan
+
+Honest Assessment: What's Real vs. What's Stubbed
+
+Before planning, you need to know the actual state of the codebase.
+
+Genuinely Working (Real Firestore calls)
+
+┌──────────────────────────────────────────┬─────────┐
+│ Feature │ Status │
+├──────────────────────────────────────────┼─────────┤
+│ Firebase Auth (login/register/session) │ Working │
+├──────────────────────────────────────────┼─────────┤
+│ Admin: User CRUD + search/filter │ Working │
+├──────────────────────────────────────────┼─────────┤
+│ Admin: Department CRUD │ Working │
+├──────────────────────────────────────────┼─────────┤
+│ Admin: System config read/write │ Working │
+├──────────────────────────────────────────┼─────────┤
+│ Supervisor: Load team members │ Working │
+├──────────────────────────────────────────┼─────────┤
+│ Supervisor: Assign task + approve/reject │ Working │
+├──────────────────────────────────────────┼─────────┤
+│ Supervisor: Attendance update │ Working │
+├──────────────────────────────────────────┼─────────┤
+│ Bilingual i18n (EN/JP) │ Working │
+└──────────────────────────────────────────┴─────────┘
+
+Stubbed / Hardcoded / Empty
+
+┌───────────────────────────────────────┬──────────────────────────────────────────────────┐
+│ Feature │ Problem │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Reports & Analytics │ Hardcoded 94%, 87% — no Firestore queries │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ PDF/Excel Export │ Just shows a Snackbar │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Engineer "New Entry" / "Report Issue" │ onTap: () {} — does nothing │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Engineer attendance check-in │ Shows "Checked in 08:30" — hardcoded string │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Engineer task list │ No tasks Firestore collection wired to engineers │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Supervisor Analytics tab │ Every metric is hardcoded │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ GoRouter │ app_router.dart is a placeholder, unused │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Audit logging │ Zero implementation │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Push notifications │ Toggle UI only — no FCM │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Email notifications │ Toggle UI only — no service │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Admin task overview │ Doesn't exist │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Issue/inspection tracking │ Model missing, no screen │
+├───────────────────────────────────────┼──────────────────────────────────────────────────┤
+│ Daily work entry log │ Model missing, no screen │
+└───────────────────────────────────────┴──────────────────────────────────────────────────┘
+
+---
+
+Target Architecture
+
+tenken_engiflow/
+├── lib/
+│ ├── core/
+│ │ ├── constants/ roles.dart, routes.dart, colors.dart
+│ │ ├── errors/ app_exception.dart
+│ │ ├── extensions/ datetime_ext.dart, string_ext.dart
+│ │ ├── services/ auth_service.dart, fcm_service.dart,
+│ │ │ audit_service.dart, export_service.dart
+│ │ ├── themes/ app_theme.dart
+│ │ └── utils/ validators.dart, date_utils.dart
+│ │
+│ ├── data/
+│ │ ├── models/ user_model.dart, task_model.dart,
+│ │ │ issue_model.dart, work_entry_model.dart,
+│ │ │ attendance_model.dart, audit_log_model.dart,
+│ │ │ system_config_model.dart, notification_model.dart
+│ │ ├── repositories/ user_repo.dart, task_repo.dart,
+│ │ │ issue_repo.dart, attendance_repo.dart,
+│ │ │ analytics_repo.dart
+│ │ └── datasources/ firestore_datasource.dart
+│ │
+│ ├── domain/
+│ │ └── entities/ (mirror of models, pure Dart)
+│ │
+│ ├── presentation/
+│ │ ├── providers/ auth_provider.dart, admin_provider.dart,
+│ │ │ task_provider.dart, issue_provider.dart,
+│ │ │ attendance_provider.dart, analytics_provider.dart,
+│ │ │ supervisor_provider.dart, locale_provider.dart
+│ │ ├── router/ app_router.dart (GoRouter, real implementation)
+│ │ ├── screens/
+│ │ │ ├── auth/ login_screen.dart, register_screen.dart
+│ │ │ ├── engineer/ engineer_home.dart, task_list_screen.dart,
+│ │ │ │ task_detail_screen.dart, check_in_screen.dart,
+│ │ │ │ work_entry_screen.dart, issue_report_screen.dart
+│ │ │ ├── supervisor/ supervisor_home.dart, team_screen.dart,
+│ │ │ │ approvals_screen.dart, team_analytics_screen.dart
+│ │ │ └── admin/ admin_home.dart, overview_tab.dart,
+│ │ │ user_mgmt_tab.dart, task_mgmt_tab.dart,
+│ │ │ issue_mgmt_tab.dart, analytics_tab.dart,
+│ │ │ system_config_tab.dart, audit_log_tab.dart
+│ │ ├── components/ (existing + chart_widget.dart, audit_tile.dart,
+│ │ │ issue_card.dart, work_entry_card.dart)
+│ │ └── widgets/
+│ │
+│ ├── l10n/
+│ └── firebase_options.dart
+
+---
+
+Firestore Schema (Production)
+
+users/{uid}
+uid, email, displayName, role, department,
+supervisorId, teamMemberIds, managedDepartments,
+fcmToken, isActive, lastLoginAt, createdAt
+
+tasks/{taskId}
+id, title, description, category,
+assignedTo (uid), assignedBy (uid), department,
+priority (low|medium|high|urgent),
+status (pending|in_progress|submitted|approved|rejected|overdue),
+dueDate, createdAt, updatedAt,
+completionNote, rejectionReason,
+attachments (List<String> — Storage URLs),
+approvedBy (uid), approvedAt
+
+work_entries/{entryId}
+id, engineerId, date, taskId (nullable),
+description, hoursWorked, location,
+status (draft|submitted|approved),
+supervisorId, createdAt
+
+issues/{issueId}
+id, reportedBy (uid), department,
+title, description, severity (low|medium|high|critical),
+status (open|in_progress|resolved|closed),
+assignedTo (uid, nullable), category,
+attachments, createdAt, updatedAt, resolvedAt
+
+attendance/{attendanceId}
+id, userId, date (YYYY-MM-DD),
+checkIn (Timestamp), checkOut (Timestamp),
+status (present|absent|late|half_day|leave),
+notes, recordedBy (uid — supervisor or self)
+
+audit_logs/{logId}
+id, actorId, actorRole, action,
+targetCollection, targetId,
+before (Map), after (Map),
+timestamp, ipAddress (if available)
+
+departments/{deptId}
+id, name, description, supervisorIds,
+teamMemberIds, isActive, createdAt
+
+notifications/{notifId}
+id, recipientId, title, body,
+type (task_assigned|task_approved|issue_reported|etc),
+relatedId, isRead, createdAt
+
+system_config/default
+(existing fields + auditRetentionDays, maxFileUploadMB)
+
+analytics_cache/{period}
+period (2026-05, 2026-Q2, etc.), generatedAt,
+totalTasks, completedTasks, completionRate,
+avgAttendanceRate, issuesOpen, issuesClosed,
+departmentStats (Map<deptId, DeptStats>)
+
+---
+
+Dependency Additions Required
+
+# Charts (no extra package needed for basic — use fl_chart)
+
+fl_chart: ^0.69.0
+
+# File Export
+
+pdf: ^3.11.1
+printing: ^5.13.1 # PDF print/share
+excel: ^4.0.6 # Excel export
+
+# File Storage & Picker
+
+firebase_storage: ^11.7.7
+image_picker: ^1.1.2
+file_picker: ^8.0.7
+
+# Push Notifications
+
+firebase_messaging: ^14.9.4
+flutter_local_notifications: ^17.2.2
+
+# Date Formatting
+
+intl: ^0.20.2 # already present
+
+# Connectivity
+
+connectivity_plus: ^6.0.3
+
+# Secure Storage (for offline auth token)
+
+flutter_secure_storage: ^9.2.2
+
+---
+
+Prioritized Build Roadmap
+
+Phase 2 — Core Engineer Workflow (Highest Priority, ~3 weeks)
+
+These are the features engineers use daily. Nothing works end-to-end without them.
+
+2A — Attendance (Check-in / Check-out)
+
+- check_in_screen.dart: tap to clock in, tap to clock out, shows today's status
+- Writes to attendance/{autoId} in Firestore
+- AttendanceProvider: streams today's record for the current user
+- Engineer dashboard shows real check-in time (not hardcoded "08:30")
+
+2B — Task List + Task Detail (Engineer view)
+
+- task_list_screen.dart: streams tasks where assignedTo == currentUser.uid
+- Filter by status tabs: All / Pending / In Progress / Completed
+- task_detail_screen.dart: view task, update status to in_progress → submitted, add completion note + optional photo
+- TaskProvider: streams tasks for current user, updates status
+
+2C — Work Entry / Daily Log
+
+- work_entry_screen.dart: date, description, hours worked, linked task (optional)
+- Lists today's and recent entries
+- WorkEntryProvider: CRUD against work_entries collection
+
+2D — Issue Reporting
+
+- issue_report_screen.dart: title, description, severity, category, optional photo
+- IssueModel + IssueProvider
+- Writes to issues collection, notifies supervisor
+
+---
+
+Phase 3 — Supervisor Workflow Completion (~2 weeks)
+
+3A — Wire real analytics data
+
+- Replace all hardcoded % in supervisor analytics with Firestore aggregation queries
+- Use where + count() for task completion rates
+- Stream attendance records for department with real date range
+
+3B — Issue Management for Supervisors
+
+- View all open issues in their department
+- Assign issues to team members
+- Mark as resolved
+
+3C — Team Reports tab (functional)
+
+- Real PDF generation: team performance report per date range using pdf package
+- Download/share via printing package
+
+3D — Approval workflow completion
+
+- Reports tab: approve submitted work entries
+- Requests tab: approve leave requests
+
+---
+
+Phase 4 — Admin Panel Completion (~2 weeks)
+
+4A — Real Analytics Backend
+
+- AnalyticsProvider + AnalyticsRepository
+- Aggregate queries against tasks, attendance, issues collections
+- Cache results to analytics_cache collection (avoid re-running on every open)
+- Replace hardcoded 94%/87% with real computed values
+- Add fl_chart bar/pie charts for: task status distribution, attendance by department, issues by severity
+
+4B — Task Management Tab (Admin)
+
+- Admin sees ALL tasks across all departments
+- Filter by department, status, date, priority
+- Can reassign or close any task
+- Bulk operations: mark multiple tasks as overdue
+
+4C — Issue Tracker Tab (Admin)
+
+- Cross-department issue overview
+- Severity heat map (by department)
+- Escalation controls
+
+4D — Audit Log Tab (Admin)
+
+- AuditService: every write operation in AdminProvider records to audit_logs
+- audit_log_tab.dart: filterable list by actor, action, date range
+- Export audit log as CSV
+
+4E — PDF/Excel Export (Real)
+
+- Implement ExportService with pdf and excel packages
+- Reports tab: generate real PDF report from Firestore data
+- Download to device or share
+
+---
+
+Phase 5 — Notifications, Security, GoRouter (~1 week)
+
+5A — GoRouter (real implementation)
+final router = GoRouter(routes: [
+GoRoute(path: '/login', builder: ...),
+GoRoute(path: '/engineer', builder: ..., routes: [
+GoRoute(path: 'tasks', builder: ...),
+GoRoute(path: 'tasks/:id', builder: ...),
+GoRoute(path: 'check-in', builder: ...),
+GoRoute(path: 'issue/new', builder: ...),
+]),
+GoRoute(path: '/supervisor', builder: ..., routes: [...]),
+GoRoute(path: '/admin', builder: ..., routes: [...]),
+]);
+Replace the current bottom-nav tab-switch pattern with real named routes so deep links and notification taps work.
+
+5B — Firebase Cloud Messaging
+
+- FcmService: initialize, request permission, store token to user doc
+- Background message handler: show local notification
+- Tap notification → deep link to relevant screen via GoRouter
+- Triggers: task assigned, task approved/rejected, issue reported, system alert
+
+5C — Firestore Security Rules
+rules_version = '2';
+service cloud.firestore {
+match /databases/{database}/documents {
+match /users/{uid} {
+allow read: if request.auth.uid == uid
+|| isAdmin() || isSupervisor();
+allow write: if isAdmin();
+allow update: if request.auth.uid == uid
+&& !affectsRole();
+}
+match /tasks/{taskId} {
+allow read: if isAdmin() || isSupervisor()
+|| resource.data.assignedTo == request.auth.uid;
+allow create: if isSupervisor() || isAdmin();
+allow update: if isAdmin() || isSupervisor()
+|| (resource.data.assignedTo == request.auth.uid
+&& onlyStatusUpdate());
+}
+match /audit_logs/{logId} {
+allow read, write: if isAdmin();
+}
+// ... etc.
+}
+}
+
+5D — createUserWithEmailAndPassword bug fix (Critical)
+
+The current AdminProvider.createNewUser() calls createUserWithEmailAndPassword which signs out the current admin and signs in as the new user. You must use Firebase Admin SDK (Cloud Function) or the secondary app pattern:
+
+// Fix: use a secondary FirebaseApp instance
+final secondaryApp = await Firebase.initializeApp(
+name: 'secondary', options: Firebase.app().options);
+final secondaryAuth = FirebaseAuth.instanceFor(app: secondaryApp);
+final cred = await secondaryAuth.createUserWithEmailAndPassword(...);
+await secondaryApp.delete();
+
+This is a production-blocking bug.
+
+---
+
+Phase 6 — Polish & Production Hardening (~1 week)
+
+- Offline support: Firestore.instance.settings = Settings(persistenceEnabled: true)
+- Error boundaries: global FlutterError.onError handler
+- Loading skeletons instead of blank screens during data fetch
+- Form validation across all dialogs (currently inconsistent)
+- Enable NotoSansJP font registration in pubspec.yaml (currently commented out)
+- Firebase App Check integration
+- Performance: add Firestore indexes for compound queries
+- CI/CD: GitHub Actions → flutter test + flutter build apk
+
+---
+
+Admin Panel — Final Complete Tab Set
+
+┌──────────────────────┬───────────────────────────┬──────────┐
+│ Tab │ Current State │ Phase │
+├──────────────────────┼───────────────────────────┼──────────┤
+│ Overview │ Stats from real Firestore │ Done │
+├──────────────────────┼───────────────────────────┼──────────┤
+│ User Management │ Full CRUD — working │ Done │
+├──────────────────────┼───────────────────────────┼──────────┤
+│ Task Management │ Missing entirely │ Phase 4B │
+├──────────────────────┼───────────────────────────┼──────────┤
+│ Issue Tracker │ Missing entirely │ Phase 4C │
+├──────────────────────┼───────────────────────────┼──────────┤
+│ Reports & Analytics │ UI only, fake data │ Phase 4A │
+├──────────────────────┼───────────────────────────┼──────────┤
+│ System Configuration │ Working │ Done │
+├──────────────────────┼───────────────────────────┼──────────┤
+│ Audit Log │ Missing entirely │ Phase 4D │
+├──────────────────────┼───────────────────────────┼──────────┤
+│ Permissions │ Matrix UI only │ Phase 5C │
+└──────────────────────┴───────────────────────────┴──────────┘
+
+---
+
+Recommended Build Order
+
+Week 1-2: Phase 2A + 2B — Check-in screen + real task flow for engineers
+Week 3: Phase 2C + 2D — Work entries + issue reporting
+Week 4-5: Phase 3A-3D — Supervisor analytics wired + approvals complete
+Week 6-7: Phase 4A-4E — Real admin analytics, task/issue tabs, audit log, export
+Week 8: Phase 5A-5D — GoRouter + FCM + security rules + createUser bug fix
+Week 9: Phase 6 — Offline, error handling, CI/CD, performance

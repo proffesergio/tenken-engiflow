@@ -118,7 +118,7 @@ class _UserManagementTabState extends State<UserManagementTab> {
               
               // User List
               if (adminProvider.isLoading)
-                Center(
+                const Center(
                   child: CircularProgressIndicator(),
                 )
               else if (adminProvider.filteredUsers.isEmpty)
@@ -183,7 +183,7 @@ class _UserManagementTabState extends State<UserManagementTab> {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: roleColor.withOpacity(0.2),
+                  backgroundColor: roleColor.withValues(alpha: 0.2),
                   child: Icon(roleIcon, color: roleColor),
                 ),
                 const SizedBox(width: 12),
@@ -211,7 +211,7 @@ class _UserManagementTabState extends State<UserManagementTab> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: roleColor.withOpacity(0.1),
+                    color: roleColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
@@ -379,7 +379,11 @@ class _UserManagementTabState extends State<UserManagementTab> {
                       );
                       return;
                     }
-                    
+
+                    final nav = Navigator.of(context);
+                    final messenger = ScaffoldMessenger.of(context);
+                    final successMsg = AppLocalizations.of(context)!.userCreatedSuccess;
+
                     final success = await provider.createNewUser(
                       email: emailController.text,
                       password: passwordController.text,
@@ -387,14 +391,11 @@ class _UserManagementTabState extends State<UserManagementTab> {
                       role: selectedRole,
                       department: selectedDepartment,
                     );
-                    
-                    if (success && mounted) {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(AppLocalizations.of(context)!.userCreatedSuccess),
-                        ),
-                      );
+
+                    if (!mounted) return;
+                    if (success) {
+                      nav.pop();
+                      messenger.showSnackBar(SnackBar(content: Text(successMsg)));
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -495,20 +496,21 @@ class _UserManagementTabState extends State<UserManagementTab> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
+                    final nav = Navigator.of(context);
+                    final messenger = ScaffoldMessenger.of(context);
+                    final successMsg = AppLocalizations.of(context)!.userUpdatedSuccess;
+
                     final success = await provider.updateUser(
                       userId: user.uid,
                       displayName: nameController.text,
                       role: selectedRole,
                       department: selectedDepartment,
                     );
-                    
-                    if (success && mounted) {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(AppLocalizations.of(context)!.userUpdatedSuccess),
-                        ),
-                      );
+
+                    if (!mounted) return;
+                    if (success) {
+                      nav.pop();
+                      messenger.showSnackBar(SnackBar(content: Text(successMsg)));
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -538,14 +540,15 @@ class _UserManagementTabState extends State<UserManagementTab> {
             ),
             ElevatedButton(
               onPressed: () async {
+                final nav = Navigator.of(context);
+                final messenger = ScaffoldMessenger.of(context);
+                final successMsg = AppLocalizations.of(context)!.userDeletedSuccess;
+
                 final success = await provider.deleteUser(user.uid);
-                if (success && mounted) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(AppLocalizations.of(context)!.userDeletedSuccess),
-                    ),
-                  );
+                if (!mounted) return;
+                if (success) {
+                  nav.pop();
+                  messenger.showSnackBar(SnackBar(content: Text(successMsg)));
                 }
               },
               style: ElevatedButton.styleFrom(

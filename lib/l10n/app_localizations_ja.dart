@@ -544,4 +544,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get permissionsUpdated => '権限が更新されました';
+
+  @override
+  String get notifications => 'Notifications';
 }

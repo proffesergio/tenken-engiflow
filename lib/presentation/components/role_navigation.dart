@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tenken_engiflow/core/constants/roles.dart';
 import 'package:tenken_engiflow/presentation/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -80,19 +79,23 @@ class RoleNavigation extends StatelessWidget {
         return [
           const BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
-            label: 'System',
+            label: 'Overview',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.people),
             label: 'Users',
           ),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.assignment),
+            label: 'Tasks',
           ),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.security),
-            label: 'Admin',
+            icon: Icon(Icons.warning_amber),
+            label: 'Issues',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.analytics),
+            label: 'Reports',
           ),
         ];
         

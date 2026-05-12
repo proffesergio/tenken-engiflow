@@ -46,24 +46,30 @@ Your Admin Dashboard has been successfully implemented with all features below.
 ## 🎯 Completed: Admin Dashboard Features
 
 ### Tab 1: Admin Overview Dashboard ✅
+
 **What it does:**
+
 - Shows system statistics (total users, engineers, supervisors, admins)
 - Displays recent activity feed
 - Shows system health status
 - Provides quick access to key metrics
 
 **How to use:**
+
 1. Admin logs in → role_based_dashboard shows admin tabs
 2. Overview tab automatically loads on first render
 3. Stats cards update in real-time as users are added/removed
 
 **Code Location:**
+
 ```
 lib/presentation/screens/dashboards/admin/admin_overview_tab.dart
 ```
 
 ### Tab 2: User Management ✅
+
 **What it does:**
+
 - List all system users with roles and departments
 - Add new users (with Firebase Auth integration)
 - Edit existing user details
@@ -72,6 +78,7 @@ lib/presentation/screens/dashboards/admin/admin_overview_tab.dart
 - Filter by role
 
 **How to use:**
+
 ```
 1. Click "Add New User" button
 2. Fill form:
@@ -95,11 +102,13 @@ To delete:
 ```
 
 **Code Location:**
+
 ```
 lib/presentation/screens/dashboards/admin/user_management_tab.dart
 ```
 
 **Firestore Collection:**
+
 ```
 users/{uid}
 ├── uid: string (Firebase Auth UID)
@@ -111,13 +120,16 @@ users/{uid}
 ```
 
 ### Tab 3: System Configuration ✅
+
 **What it does:**
+
 - Manage company departments
 - Configure system settings (maintenance mode, company name)
 - Enable/disable notification types
 - Define system roles
 
 **Department Management:**
+
 ```
 1. Click "Add Department"
 2. Enter:
@@ -127,6 +139,7 @@ users/{uid}
 ```
 
 **Settings & Notifications:**
+
 ```
 - Maintenance Mode: Toggle to disable access for non-admins
 - Company Name: Edit business name
@@ -136,11 +149,13 @@ users/{uid}
 ```
 
 **Code Location:**
+
 ```
 lib/presentation/screens/dashboards/admin/system_configuration_tab.dart
 ```
 
 **Firestore Collections:**
+
 ```
 departments/{deptId}
 ├── name: string
@@ -161,13 +176,16 @@ system_config/default
 ```
 
 ### Tab 4: Reports & Analytics ✅
+
 **What it does:**
+
 - Display system-wide analytics and KPIs
 - Show department performance metrics
 - Allow custom date range filtering
 - Export reports to PDF/Excel (UI ready)
 
 **Features:**
+
 ```
 1. Select date range using calendar picker
 2. View key metrics:
@@ -180,6 +198,7 @@ system_config/default
 ```
 
 **Performance Metrics Tracked:**
+
 ```
 - User count by role
 - Attendance statistics
@@ -189,12 +208,15 @@ system_config/default
 ```
 
 **Code Location:**
+
 ```
 lib/presentation/screens/dashboards/admin/reports_analytics_tab.dart
 ```
 
 ### Tab 5: Permissions Management ✅
+
 **What it does:**
+
 - Display role-based permission matrix
 - Show what each role (Engineer/Supervisor/Admin) can do
 - Visual permission configuration
@@ -203,6 +225,7 @@ lib/presentation/screens/dashboards/admin/reports_analytics_tab.dart
 **Permission Levels:**
 
 **Engineer (基本作業者):**
+
 - View own tasks
 - Update task status
 - View own attendance
@@ -210,6 +233,7 @@ lib/presentation/screens/dashboards/admin/reports_analytics_tab.dart
 - View own profile
 
 **Supervisor (監督者):**
+
 - Manage team members
 - Assign tasks
 - Approve task completion
@@ -219,6 +243,7 @@ lib/presentation/screens/dashboards/admin/reports_analytics_tab.dart
 - Manage task approvals
 
 **Admin (管理者):**
+
 - Manage all users
 - Manage system configuration
 - Manage roles & permissions
@@ -228,6 +253,7 @@ lib/presentation/screens/dashboards/admin/reports_analytics_tab.dart
 - Audit logs
 
 **Permission Matrix:**
+
 ```
          | Engineer | Supervisor | Admin
 ---------|----------|------------|------
@@ -240,11 +266,13 @@ Admin    |    ✗     |     ✗      |  ✓
 ```
 
 **Code Location:**
+
 ```
 lib/presentation/screens/dashboards/admin/permissions_tab.dart
 ```
 
 **Firestore Collection:**
+
 ```
 permissions/{permId}
 ├── role: string
@@ -261,6 +289,7 @@ permissions/{permId}
 ## 🚀 Running & Testing the App
 
 ### Prerequisites:
+
 ```bash
 - Flutter SDK installed
 - Android emulator or physical device
@@ -294,6 +323,7 @@ flutter build ios --release
 ### Testing Admin Features:
 
 **Step 1: Create Admin User**
+
 ```
 - Use register_screen.dart
 - Email: admin@company.com
@@ -304,6 +334,7 @@ flutter build ios --release
 ```
 
 **Step 2: Login as Admin**
+
 ```
 - Navigate to login_screen.dart
 - Email: admin@company.com
@@ -311,6 +342,7 @@ flutter build ios --release
 ```
 
 **Step 3: Test Each Tab**
+
 ```
 1. Overview Tab:
    - Should show 0-1 users initially
@@ -343,6 +375,7 @@ flutter build ios --release
 ```
 
 ### Language Testing:
+
 ```
 1. Click language switcher (top right corner)
 2. Switch between English and Japanese
@@ -437,6 +470,7 @@ tenken_engiflow/
 ## 🔐 Access Control
 
 ### Role-Based Access:
+
 ```
 Engineer User:
 - ✗ Cannot access Admin Dashboard
@@ -453,6 +487,7 @@ Admin User:
 ```
 
 ### Implementation Location:
+
 ```
 lib/presentation/screens/role_based_dashboard.dart
 - Line: Checks user role before rendering dashboard content
@@ -466,6 +501,7 @@ lib/presentation/screens/role_based_dashboard.dart
 ### Collections to Create:
 
 **1. users (auto-created by AdminProvider)**
+
 ```
 Document structure: {uid}
 ├── uid: string
@@ -479,6 +515,7 @@ Document structure: {uid}
 ```
 
 **2. departments (manual create)**
+
 ```
 Document structure: {deptId}
 ├── name: string
@@ -490,6 +527,7 @@ Document structure: {deptId}
 ```
 
 **3. system_config (auto-created by AdminProvider)**
+
 ```
 Document ID: default
 ├── departments: array
@@ -504,6 +542,7 @@ Document ID: default
 ```
 
 **4. permissions (optional - for advanced setup)**
+
 ```
 Document structure: {permId}
 ├── role: string
@@ -520,6 +559,7 @@ Document structure: {permId}
 ## 🎨 UI/UX Design
 
 ### Color Scheme:
+
 ```
 Primary (Admin): #388E3C (Green)
 Secondary Colors:
@@ -535,6 +575,7 @@ Text Colors:
 ```
 
 ### Components:
+
 ```
 ✓ AppBar with role badge
 ✓ Cards for data display
@@ -553,20 +594,26 @@ Text Colors:
 ## 🔧 Troubleshooting
 
 ### Issue: Admin Dashboard not showing
+
 **Solution:**
+
 1. Ensure user role is set to 'admin' in Firestore users collection
 2. Check role_based_dashboard.dart role detection logic
 3. Verify AdminProvider is initialized in main.dart
 
 ### Issue: Users not loading
+
 **Solution:**
+
 1. Check Firestore rules allow read access
 2. Verify Firebase authentication is initialized
 3. Check network connectivity
 4. Look for errors in Firebase console
 
 ### Issue: Localization not working
+
 **Solution:**
+
 ```bash
 # Regenerate localization files
 flutter gen-l10n
@@ -578,7 +625,9 @@ flutter run
 ```
 
 ### Issue: Form submissions failing
+
 **Solution:**
+
 1. Check Firestore write permissions
 2. Verify all required fields are filled
 3. Check Firebase console for error messages
@@ -629,6 +678,7 @@ flutter run
 ## 📞 Support & Maintenance
 
 ### Regular Maintenance Tasks:
+
 ```
 Weekly:
 - Monitor Firestore usage
@@ -671,6 +721,7 @@ Before moving to Phase 2, ensure:
 **Admin Dashboard: COMPLETE ✅**
 
 Your Tenken EngiFlow application now has a fully functional Admin Dashboard with:
+
 - Complete user management system
 - Department configuration
 - System settings control
