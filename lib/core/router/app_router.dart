@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:tenken_engiflow/presentation/providers/auth_provider.dart';
 import 'package:tenken_engiflow/presentation/screens/login_screen.dart';
+import 'package:tenken_engiflow/presentation/screens/public_home_screen.dart';
 import 'package:tenken_engiflow/presentation/screens/role_based_dashboard.dart';
 import 'package:tenken_engiflow/presentation/screens/splash_screen.dart';
 
@@ -15,18 +16,25 @@ GoRouter createRouter(AuthProvider auth) => GoRouter(
         // Still determining auth state — stay on splash
         if (loading) return null;
 
-        // Not logged in and not already heading to login
-        if (!loggedIn && loc != '/login') return '/login';
+        if (loggedIn) {
+          // Logged-in users bypass all public screens
+          if (loc == '/' || loc == '/home' || loc == '/login') return '/dashboard';
+          return null;
+        }
 
-        // Logged in but stuck on splash or login
-        if (loggedIn && (loc == '/' || loc == '/login')) return '/dashboard';
-
-        return null;
+        // Not logged in:
+        if (loc == '/') return '/home'; // splash → public home
+        if (loc == '/home' || loc == '/login') return null; // allowed public screens
+        return '/home'; // anything else → public home
       },
       routes: [
         GoRoute(
           path: '/',
           builder: (context, state) => const SplashScreen(),
+        ),
+        GoRoute(
+          path: '/home',
+          builder: (context, state) => const PublicHomeScreen(),
         ),
         GoRoute(
           path: '/login',

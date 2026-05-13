@@ -1,12 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:tenken_engiflow/presentation/providers/auth_provider.dart';
 import 'package:tenken_engiflow/presentation/screens/register_screen.dart';
-import 'package:tenken_engiflow/presentation/screens/dashboard_screen.dart';
-import 'package:tenken_engiflow/presentation/screens/role_based_dashboard.dart';
 import 'package:tenken_engiflow/l10n/app_localizations.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -99,19 +97,21 @@ Future<void> _testFirestore() async {
   @override
   Widget build(BuildContext context) {
   final authProvider = Provider.of<AuthProvider>(context);
-  
-  // Auto-navigate if already logged in
-  if (authProvider.firebaseUser != null) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const DashboardScreen()),
-      );
-    });
-  }
+  // GoRouter's refreshListenable handles redirect when auth state changes.
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF37474F)),
+          tooltip: 'ホームへ戻る / Back to Home',
+          onPressed: () => context.canPop() ? context.pop() : context.go('/home'),
+        ),
+        title: const Text('ログイン / Login', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF37474F))),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -267,19 +267,11 @@ Future<void> _testFirestore() async {
                             ? null
                             : () async {
                                 if (_formKey.currentState!.validate()) {
-                                  bool success = await authProvider.login(
+                                  await authProvider.login(
                                     _emailController.text.trim(),
                                     _passwordController.text.trim(),
                                   );
-                                  
-                                  if (success && context.mounted) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const RoleBasedDashboard(),
-                                      ),
-                                    );
-                                  }
+                                  // GoRouter redirect fires automatically via refreshListenable
                                 }
                               },
                         style: ElevatedButton.styleFrom(
