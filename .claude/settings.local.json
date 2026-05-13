@@ -14,7 +14,8 @@
       "Bash(Remove-Item \"H:\\\\Desktop\\\\Projects\\\\Flutter Projects Again\\\\Japan Reporting App\\\\tenken_engiflow\\\\lib\\\\presentation\\\\screens\\\\dashboards\\\\admin\\\\permissions_tab.dart\" -Force)",
       "Bash(Write-Host \"Deleted both orphaned files\")",
       "Bash(dir \"H:\\\\Desktop\\\\Projects\\\\Flutter Projects Again\\\\Japan Reporting App\\\\tenken_engiflow\" /b)",
-      "Bash(flutter pub *)"
+      "Bash(flutter pub *)",
+      "Bash(dir H:\\\\Desktop\\\\Projects\\\\Flutter Projects Again\\\\Japan Reporting App\\\\tenken_engiflow\\\\README* *)"
     ]
   }
 }

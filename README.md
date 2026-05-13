@@ -1,834 +1,838 @@
-# 🏗️ Tenken EngiFlow - Engineering Task Management System
-
 <div align="center">
-  
-![Flutter](https://img.shields.io/badge/Flutter-3.16-blue?style=flat&logo=flutter)
-![Firebase](https://img.shields.io/badge/Firebase-Emulator-orange?style=flat&logo=firebase)
-![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-green?style=flat)
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow?style=flat)
 
-**A professional task management solution for Japanese engineering companies**
+# 🏗️ Tenken EngiFlow
+
+### 現場エンジニアリング管理システム
+
+### Field Engineering Management System
+
+[![Flutter](https://img.shields.io/badge/Flutter-3.16+-02569B?style=flat&logo=flutter&logoColor=white)](https://flutter.dev)
+[![Firebase](https://img.shields.io/badge/Firebase-Cloud-FFCA28?style=flat&logo=firebase&logoColor=black)](https://firebase.google.com)
+[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web-4CAF50?style=flat&logo=android&logoColor=white)](https://flutter.dev/multi-platform)
+[![i18n](https://img.shields.io/badge/Language-日本語%20%7C%20English-red?style=flat)](https://github.com)
+[![Status](https://img.shields.io/badge/Status-Showcase%20Ready-brightgreen?style=flat)](https://github.com)
+
+**日本のエンジニアリング会社向けに設計されたモバイルファーストの統合タスク管理・報告システム**
+
+**A mobile-first integrated task management and reporting system built for Japanese engineering companies**
 
 </div>
 
-## 📋 Table of Contents
+---
 
-- [Overview](#-overview)
-- [Key Features](#-key-features)
-- [User Roles & Permissions](#-user-roles--permissions)
-- [Installation Guide](#-installation-guide)
-- [Usage Guide](#-usage-guide)
-- [Technology Stack](#-technology-stack)
-- [Firebase Setup](#-firebase-setup)
-- [Development Guidelines](#-development-guidelines)
+## 言語 / Language
+
+- 🇯🇵 [日本語版 README はこちら](#-日本語ガイド)
+- 🇬🇧 [English Guide below](#-english-guide)
 
 ---
 
-## 🎯 Overview
+# 🇬🇧 English Guide
 
-**Tenken EngiFlow** is a mobile application designed specifically for Japanese engineering and construction companies to manage daily workloads, maintenance tasks, and employee evaluations. The app emphasizes **accuracy, discipline, documentation, and traceability** in engineering operations.
+## Table of Contents
 
-### 主な概要 (Main Overview)
-
-**Tenken EngiFlow**は、日本のエンジニアリング・建設会社向けに特別に設計されたモバイルアプリケーションです。日々の作業負荷、メンテナンス業務、従業員評価を管理することを目的としています。本アプリは、エンジニアリング業務における**正確性、規律、文書化、追跡可能性**を重視しています。
+- [Overview](#overview)
+- [App Flow](#app-flow)
+- [Key Features](#key-features)
+- [User Roles & Permissions](#user-roles--permissions)
+- [How to Use — Engineers](#how-to-use--engineers)
+- [How to Use — Supervisors](#how-to-use--supervisors)
+- [How to Use — Admins](#how-to-use--admins)
+- [Technology Stack](#technology-stack)
+- [Installation](#installation)
+- [Roadmap](#roadmap)
 
 ---
 
-## ✨ Key Features
+## Overview
+
+**Tenken EngiFlow** is a role-based engineering task management application built with Flutter and Firebase. It is designed to digitise and streamline the daily workflows of Japanese engineering field teams — from task assignment and attendance tracking to issue reporting and analytics.
+
+The app requires **no login to view** the public dashboard. First-time visitors are greeted with a guided tutorial that explains the system, and a small Login button in the top-right corner allows authenticated users (admins, supervisors, and engineers) to access their personalised dashboard.
+
+---
+
+## App Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                           APP LAUNCH                                │
+│                               ↓                                     │
+│                      Splash Screen (/)                              │
+│                               ↓                                     │
+│                    Public Home Screen (/home)                       │
+│               ┌───────────────────────────────┐                    │
+│               │  • First-launch tutorial popup │                    │
+│               │  • Live stats dashboard        │                    │
+│               │  • Urgent tasks overview       │                    │
+│               │  • Active teams feed           │                    │
+│               │  • Recent activity timeline    │                    │
+│               │  • [ログイン / Login] button   │                    │
+│               └───────────────────────────────┘                    │
+│                               ↓                                     │
+│                    Login Screen (/login)                            │
+│              Email + Password  →  Role determined                   │
+│              automatically from user's Firebase record              │
+│                               ↓                                     │
+│               ┌──────────────────────────────┐                     │
+│               │   Role-Based Dashboard        │                     │
+│               │   /dashboard                  │                     │
+│               ├──────────────────────────────┤                     │
+│               │  👷 Engineer Dashboard        │                     │
+│               │  👔 Supervisor Dashboard      │                     │
+│               │  🔑 Admin Dashboard           │                     │
+│               └──────────────────────────────┘                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Key Features
+
+### 🏠 Public Home Screen — No Login Required
+
+The landing page is a professional dashboard visible to anyone. It shows:
+
+| Widget              | Description                                                    |
+| ------------------- | -------------------------------------------------------------- |
+| **Hero Banner**     | Company name, current date/time, live indicator                |
+| **Stats Grid**      | Active teams, urgent tasks, pending approvals, attendance rate |
+| **Urgent Tasks**    | High-priority tasks with assignee and deadline                 |
+| **Active Teams**    | Which teams are currently on-site and where                    |
+| **Recent Activity** | Timestamped live feed of latest events                         |
+| **Login CTA**       | Prominent but non-intrusive login card with role badges        |
+
+```
+┌───────────────────────────────────────────────────────┐
+│  🔧 Tenken EngiFlow  現場管理システム       [ログイン] │
+│  LIVE  2026年5月13日  09:30                           │
+│                                                       │
+│  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐         │
+│  │   4    │ │   2    │ │   6    │ │  94%   │         │
+│  │チーム  │ │ 緊急   │ │ 承認待 │ │ 出勤率 │         │
+│  │ Teams  │ │ Urgent │ │Pending │ │Attend. │         │
+│  └────────┘ └────────┘ └────────┘ └────────┘         │
+│                                                       │
+│  ⚠️ HIGH  第3工場 消防設備点検  →  本日 15:00         │
+│  ⚠️ HIGH  設備B-12 緊急修理    →  本日 17:00         │
+│                                                       │
+│  👥 LIVE  田中チーム — 安全点検 — 第1工場             │
+│           佐藤チーム — 設備保守 — 第2工場             │
+│           鈴木チーム — 品質検査 — 第3工場             │
+│                                                       │
+│  13:42 ✅  田中 太郎 が安全点検を完了                │
+│  13:15 ⚠️  設備B-3 の問題が報告されました            │
+│  12:55 ▶️  佐藤チーム が作業を開始                   │
+└───────────────────────────────────────────────────────┘
+```
+
+### 🎓 First-Launch Tutorial
+
+On first open, a 4-slide tutorial dialog appears automatically:
+
+| Slide | Content                                                              |
+| ----- | -------------------------------------------------------------------- |
+| 1     | **Welcome** — System purpose and overview                            |
+| 2     | **For Engineers** — Tasks, check-in, reports, issue reporting        |
+| 3     | **For Supervisors & Admins** — Team management, approvals, analytics |
+| 4     | **Getting Started** — How to login and which role to use             |
+
+The tutorial can be dismissed at any time and re-opened via the `?` icon in the app bar.
 
 ### 🔐 Authentication & Security
 
-- **Role-based login system** (Engineer/Supervisor/Admin)
-- **Secure Firebase Authentication** with email/password
-- **Automatic session management**
-- **Department-based user grouping**
-
-### 📊 Dashboard & Monitoring
-
-- **Today's Attendance Status** - Real-time check-in/check-out tracking
-- **Daily Work Entries** - Task completion tracking (Done/Pending)
-- **Machinery Inspection Alerts** - Automated reminders for equipment checks
-- **Pending Reports** - Overview of due documentation
-- **Role-specific views** - Customized dashboard for each user type
-
-### 📝 Task Management
-
-- **Work Entry Creation** - Log daily tasks with timestamps
-- **Task Assignment** - Supervisors can assign work to engineers
-- **Progress Tracking** - Visual indicators for task completion
-- **Priority System** - Urgent/Important/Normal classification
-
-### 🏷️ Japanese Engineering Standards
-
-- **Clean, Minimalist UI** - Japanese aesthetic design principles
-- **Information Density** - More data, less clutter
-- **No Unnecessary Animations** - Focus on functionality
-- **Bilingual Support** - English/Japanese interface (Future Release)
-
-### 主な機能 (Key Features - Japanese)
-
-#### 🔐 認証とセキュリティ
-
-- **役割ベースのログインシステム** (技術者/監督者/管理者)
-- **メール/パスワードによる安全なFirebase認証**
-- **自動セッション管理**
-- **部門別ユーザーグループ化**
-
-#### 📊 ダッシュボードと監視
-
-- **本日の出勤状況** - リアルタイム出退勤追跡
-- **日次作業記録** - タスク完了状況追跡 (完了/保留)
-- **機械点検アラート** - 設備チェックの自動リマインダー
-- **未処理レポート** - 期限文書の概要
-- **役割別表示** - ユーザー種別ごとのカスタマイズされたダッシュボード
-
-#### 📝 タスク管理
-
-- **作業記録作成** - タイムスタンプ付き日次タスク記録
-- **タスク割り当て** - 監督者が技術者に作業を割り当て可能
-- **進捗状況追跡** - タスク完了の視覚的指標
-- **優先度システム** - 緊急/重要/通常の分類
+- Role-based login — one login screen, role loaded from Firebase
+- Deactivated accounts are blocked immediately at login
+- GoRouter redirect guards all authenticated routes
+- Firestore security rules enforce per-role data access
+- Secondary Firebase app pattern prevents admin session loss when creating users
 
 ---
 
-## 👥 User Roles & Permissions
+## User Roles & Permissions
 
-| Role                     | 役割                                                                       | Permissions                                                                                                                                                             | 権限                                                                                                                                        |
-| ------------------------ | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Engineer**<br>技術者   | Field workers, site engineers<br>現場作業員、現場技術者                    | • Create daily work entries<br>• Submit inspection reports<br>• View assigned tasks<br>• Check attendance status                                                        | • 日次作業記録の作成<br>• 点検報告書の提出<br>• 割り当てられたタスクの表示<br>• 出勤状況の確認                                              |
-| **Supervisor**<br>監督者 | Team leaders, project managers<br>チームリーダー、プロジェクトマネージャー | • All Engineer permissions<br>• Approve/reject work entries<br>• Assign tasks to engineers<br>• Generate team performance reports<br>• View machinery inspection alerts | • 技術者の全権限<br>• 作業記録の承認/拒否<br>• 技術者へのタスク割り当て<br>• チームパフォーマンスレポートの作成<br>• 機械点検アラートの表示 |
-| **Admin**<br>管理者      | System administrators, head office<br>システム管理者、本社                 | • All Supervisor permissions<br>• Manage user accounts<br>• Configure system settings<br>• Access all company data<br>• Generate company-wide reports                   | • 監督者の全権限<br>• ユーザーアカウントの管理<br>• システム設定の構成<br>• 全社データへのアクセス<br>• 全社レポートの作成                  |
+|                                   | 👷 Engineer<br>技術者 | 👔 Supervisor<br>監督者 | 🔑 Admin<br>管理者 |
+| --------------------------------- | --------------------- | ----------------------- | ------------------ |
+| View public home screen           | ✅                    | ✅                      | ✅                 |
+| View own tasks                    | ✅                    | ✅                      | ✅                 |
+| Daily check-in / check-out        | ✅                    | ✅                      | ✅                 |
+| Submit work entries               | ✅                    | ✅                      | ✅                 |
+| Report issues                     | ✅                    | ✅                      | ✅                 |
+| View team members                 | ❌                    | ✅ (own dept)           | ✅                 |
+| Assign tasks to engineers         | ❌                    | ✅                      | ✅                 |
+| Approve / reject work entries     | ❌                    | ✅                      | ✅                 |
+| Approve / reject tasks            | ❌                    | ✅                      | ✅                 |
+| Manage team issues                | ❌                    | ✅                      | ✅                 |
+| View team attendance analytics    | ❌                    | ✅ (own dept)           | ✅                 |
+| Create / deactivate user accounts | ❌                    | ❌                      | ✅                 |
+| Manage departments                | ❌                    | ❌                      | ✅                 |
+| View all departments' data        | ❌                    | ❌                      | ✅                 |
+| System-wide analytics             | ❌                    | ❌                      | ✅                 |
 
 ---
 
-## 🎛️ Admin Dashboard (NEW! ✨)
+## How to Use — Engineers
 
-### Overview (管理者ダッシュボード)
+Engineers are the primary field workers. After logging in they land on the **Engineer Dashboard** with five tabs.
 
-The **Admin Dashboard** provides comprehensive system administration tools with 5 main tabs:
+### 🏠 Home Tab
 
-**管理者ダッシュボード**は、5つのメインタブを備えた包括的なシステム管理ツールです：
+- **Attendance card** — Tap `チェックイン` to clock in. The card shows your check-in time and a running duration. Tap `チェックアウト` when done (hours are calculated automatically).
+- **Task summary grid** — Four counters: Pending / In Progress / Submitted / Approved.
+- **Quick actions** — Shortcut buttons to log a work entry or report an issue.
+- **Today's tasks** — The first few active tasks at a glance.
 
-### 5 Admin Tabs:
+### 📋 Tasks Tab
 
-1. **📊 Overview Tab**
-   - System statistics (total users, engineers, supervisors, admins)
-   - Recent activity feed
-   - System health status indicators
+- Filter tasks with chip bar: `All` / `Pending` / `In Progress` / `Submitted` / `Done`.
+- Overdue tasks are flagged with a red badge.
+- Tap a task card to open the **Task Detail screen** — view priority, deadline, description, and a status timeline.
+- From detail: `Start Task` → `Submit for Review` → awaits supervisor approval.
+- If rejected, a rejection card appears with the supervisor's reason; tap `Resubmit` after making changes.
 
-2. **👥 User Management Tab**
-   - Add/Edit/Delete users
-   - Search users by name or email
-   - Filter users by role
-   - Bulk user operations (future)
+### 📊 Reports Tab (Work Entries & Issues)
 
-3. **⚙️ System Configuration Tab**
-   - Department management (add, edit, view teams)
-   - Company settings (maintenance mode, company name)
-   - Notification preferences (push, email, SMS)
+- Two sub-tabs: **Work Entries** and **Issues**.
+- **Work Entries** — Tap the `+` FAB to log daily work: date, description, hours worked, linked task.
+- **Issues** — Tap the `+` FAB to report a problem: title, description, severity (`Low / Medium / High / Critical`), category.
+- All submissions go to Firestore and appear in the supervisor's **Approvals** tab.
 
-4. **📈 Reports & Analytics Tab**
-   - Key performance indicators (KPIs)
-   - Department performance metrics
-   - Custom date range filtering
-   - Export to PDF/Excel (coming soon)
+### 👤 Profile Tab
 
-5. **🔐 Permissions Management Tab**
-   - Role-based permission matrix
-   - Engineer/Supervisor/Admin permission levels
-   - Fine-grained access control configuration
-
-### Admin Dashboard Documentation
-
-- 📖 **QUICK_START.md** - Quick reference guide (5 min read)
-- 📚 **DEVELOPMENT_INSTRUCTIONS.md** - Complete how-to guide
-- 📋 **ADMIN_DASHBOARD_GUIDE.md** - Technical implementation details
-- 📊 **ADMIN_DASHBOARD_SUMMARY.md** - Project summary & status
-
-### Access Admin Dashboard
+- View your account info, role badge, and department.
+- Toggle between 🇬🇧 English and 🇯🇵 Japanese.
+- Logout with confirmation dialog.
 
 ```
-1. Login with admin credentials
-2. Dashboard automatically shows all 5 tabs
-3. Available only to users with role: "admin"
-4. Full bilingual support (English/Japanese)
+Engineer Dashboard:
+┌──────────────────────────────────────┐
+│  Engineer Dashboard     [ROLE] [OUT] │
+│  第2工場  田中 太郎                   │
+├──────────────────────────────────────┤
+│  おはようございます！                 │
+│                                      │
+│  [✅ チェックイン  09:02]             │
+│  本日の勤務時間: 3時間12分            │
+│                                      │
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐│
+│  │  3   │ │  2   │ │  1   │ │  5   ││
+│  │未開始│ │進行中│ │提出済│ │ 完了 ││
+│  └──────┘ └──────┘ └──────┘ └──────┘│
+│                                      │
+│  [+ 作業報告] [⚠️ 問題報告]          │
+└──────────────────────────────────────┘
+[🏠 Home][📋 Tasks][📊 Reports][👤 Profile]
 ```
 
 ---
 
-## 🚀 Installation Guide
+## How to Use — Supervisors
 
-### Prerequisites 前提条件
+Supervisors oversee a department's team. After login they land on the **Supervisor Dashboard** with four tabs.
 
-- **Flutter SDK** (version 3.16.0 or higher)
-- **Android Studio** or VS Code with Flutter extension
-- **Android Emulator** or physical device (API 21+)
-- **Firebase Account** (for backend services)
+### 📊 Overview Tab
 
-### Step-by-Step Setup 段階的なセットアップ
+- **Stats grid** — Team size, pending approvals, today's attendance %, open issues.
+- **Quick actions** — Assign a new task, refresh data.
+- **Recent activity feed** — Timestamped list of task updates, check-ins, and issue reports from the team.
+
+### 👥 Team Tab
+
+- Search bar to find a team member by name.
+- Each member card shows their department, role, and quick-action buttons.
+- **Assign task** — Opens a dialog: title, description, priority, due date, select assignee.
+- **Update attendance** — Opens a dialog to manually record a member's attendance status.
+- Tap a member to open their **details sheet** with full profile and task history.
+
+### ✅ Approvals Tab
+
+Three sub-tabs with badge counts:
+
+| Sub-tab          | What's shown                    | Actions                                 |
+| ---------------- | ------------------------------- | --------------------------------------- |
+| **Tasks**        | Submitted tasks awaiting review | Approve / Reject (with reason)          |
+| **Work Entries** | Submitted daily logs            | Approve / Reject                        |
+| **Issues**       | Open issues in the department   | Assign to a team member / Mark resolved |
+
+### 📈 Analytics Tab
+
+- Pick a date to view attendance for that day (present / late / absent breakdown).
+- Pending approval counts and issue overview.
+- Full attendance record list with status chips.
+- Critical issue warning appears when any unresolved critical issue exists.
+
+```
+Supervisor Dashboard:
+┌──────────────────────────────────────┐
+│  Supervisor Dashboard   [ROLE] [OUT] │
+│  第1工場  佐藤 監督                   │
+├──────────────────────────────────────┤
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐│
+│  │  12  │ │  6   │ │  94% │ │  2   ││
+│  │ チーム│ │承認待│ │ 出勤 │ │問題  ││
+│  └──────┘ └──────┘ └──────┘ └──────┘│
+│                                      │
+│  [タスク割り当て]  [更新]             │
+│                                      │
+│  最新アクティビティ                   │
+│  13:42 田中 太郎 が点検完了           │
+│  13:15 設備B-3 問題報告              │
+└──────────────────────────────────────┘
+[📊 Overview][👥 Team][✅ Approvals][📈 Analytics]
+```
+
+---
+
+## How to Use — Admins
+
+Admins have full system access. After login they land on the **Admin Dashboard** with five tabs.
+
+### 📊 Overview Tab
+
+- System-wide stats: total users (by role), tasks (by status), issues (by status).
+- Recent activity feed pulling from multiple Firestore collections.
+
+### 👥 User Management Tab
+
+- **Search** users by name or email.
+- **Filter** by role: All / Engineer / Supervisor / Admin.
+- **Add user** — Name, email, password, role, department. Uses a secondary Firebase app so the admin's own session is never interrupted.
+- **Edit user** — Change name, department, or role.
+- **Deactivate** — Marks the account as inactive. The user is blocked on their next login attempt without deleting their data.
+
+### 📋 Tasks Tab (Admin)
+
+- View **all tasks** across all departments.
+- Search by title; filter by status and priority.
+- Each task card shows priority badge, status badge, and overdue flag.
+- Use the `⋮` menu to change a task's status directly.
+
+### ⚠️ Issues Tab (Admin)
+
+- View **all issues** across all departments.
+- Search; filter by status and severity.
+- Severity and status badges for quick scanning.
+- Use the `⋮` menu to update issue status.
+
+### 📈 Reports & Analytics Tab
+
+- Horizontal bar charts (no external library) for:
+  - User distribution by role
+  - Task status breakdown
+  - Issue overview (by status and severity)
+  - Department performance breakdown
+- Export placeholders (PDF/Excel — Phase 2).
+
+```
+Admin Dashboard:
+┌──────────────────────────────────────┐
+│  Admin Dashboard        [ROLE] [OUT] │
+├──────────────────────────────────────┤
+│  総ユーザー: 45  技術者: 32          │
+│  タスク: 127    問題: 8 (重大: 1)   │
+│                                      │
+│  タスク状況                          │
+│  完了  ██████████░░░  68%           │
+│  進行中 ████░░░░░░░░  24%           │
+│  未着手 ██░░░░░░░░░░  8%            │
+└──────────────────────────────────────┘
+[📊 Overview][👥 Users][📋 Tasks][⚠️ Issues][📈 Reports]
+```
+
+---
+
+## Technology Stack
+
+| Layer                | Technology               | Details                                |
+| -------------------- | ------------------------ | -------------------------------------- |
+| **Frontend**         | Flutter 3.16+            | iOS, Android, Web                      |
+| **Language**         | Dart 3.2+                | Null-safe, strongly typed              |
+| **UI**               | Material Design 3        | Japanese minimalist aesthetic          |
+| **State Management** | Provider 6.1             | Efficient reactive UI                  |
+| **Routing**          | go_router 12             | Deep-link ready, redirect guards       |
+| **Backend**          | Firebase Cloud Firestore | Real-time NoSQL, Tokyo region          |
+| **Authentication**   | Firebase Auth 4.15       | Email/password, session management     |
+| **Notifications**    | Firebase Messaging 14    | Push notification infrastructure       |
+| **Localisation**     | Flutter l10n             | Japanese + English, runtime switchable |
+| **Local Storage**    | shared_preferences       | Tutorial seen flag, user preferences   |
+| **Security**         | Firestore Security Rules | Per-role data access enforcement       |
+
+### Firebase Project
+
+- **Region**: `asia-northeast1` (Tokyo) for minimum latency
+- **Firestore collections**: `users`, `tasks`, `work_entries`, `issues`, `attendance`, `departments`, `system_config`
+- **Security**: Role-based rules — engineers see only their own data; supervisors see their department; admins see everything
+
+---
+
+## Installation
+
+### Prerequisites
+
+- Flutter SDK 3.16 or higher
+- Android Studio / VS Code with Flutter extension
+- Firebase account with a project configured
+
+### Setup Steps
 
 ```bash
 # 1. Clone the repository
-git clone https://your-repository/tenken_engiflow.git
+git clone https://github.com/your-org/tenken_engiflow.git
 cd tenken_engiflow
 
 # 2. Install dependencies
 flutter pub get
 
-# 3. Setup Firebase (See Firebase Setup section below)
+# 3. Place your Firebase config file
+#    Android: android/app/google-services.json
+#    iOS:     ios/Runner/GoogleService-Info.plist
+#    Web:     already wired in lib/firebase_options.dart
 
-# 4. Run the application
+# 4. Deploy Firestore security rules
+firebase deploy --only firestore:rules
+
+# 5. Run the app
 flutter run
 ```
 
-### Firebase Setup Firebaseセットアップ
+### Firebase Configuration
 
-1. **Create Firebase Project** Firebaseプロジェクトの作成
-   - Go to [Firebase Console](https://console.firebase.google.com/)
-   - Click "Add Project" → Name: "Tenken EngiFlow"
-   - Disable Google Analytics (optional)
+1. Create a project at [console.firebase.google.com](https://console.firebase.google.com)
+2. Enable **Email/Password** under Authentication → Sign-in method
+3. Create a **Cloud Firestore** database in `asia-northeast1` (Tokyo)
+4. Register your Android/iOS app and download the config files
+5. Use the existing `firestore.rules` at project root
 
-2. **Register Android App** Androidアプリの登録
-   - Click "Add App" → Android
-   - Package name: `com.tenken.engiflow`
-   - Download `google-services.json`
-   - Place file in `android/app/`
+### First Admin Account
 
-3. **Enable Firebase Services** Firebaseサービスの有効化
-   - **Authentication** → Sign-in method → Enable Email/Password
-   - **Firestore Database** → Create Database → Start in test mode
-   - Set location to `asia-northeast1` (Tokyo) for better latency
+Create the first admin directly in Firebase Console:
 
-4. **Configure Firestore Rules** Firestoreルールの設定
+1. **Authentication** → Add user (email + password)
+2. **Firestore** → `users` collection → New document with the user's `uid`:
 
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null;
-    }
-  }
+```json
+{
+  "uid": "<firebase-auth-uid>",
+  "email": "admin@yourcompany.co.jp",
+  "displayName": "管理者",
+  "role": "admin",
+  "department": "システム管理部",
+  "isActive": true,
+  "createdAt": "<timestamp>"
 }
 ```
 
----
-
-## 📱 Usage Guide 使用方法ガイド
-
-### For Engineers 技術者向け
-
-1. **Daily Login** 日次ログイン
-   - Open app and enter credentials
-   - Dashboard shows today's tasks and attendance status
-   - アプリを開き、資格情報を入力
-   - ダッシュボードに本日のタスクと出勤状況が表示
-
-2. **Work Entry Creation** 作業記録の作成
-   - Tap "New Entry" from dashboard
-   - Select task type, add description, set priority
-   - Submit for supervisor approval
-   - ダッシュボードから「新規記録」をタップ
-   - タスク種別を選択、説明を追加、優先度を設定
-   - 監督者の承認のために提出
-
-3. **Report Submission** 報告書の提出
-   - Navigate to "Reports" section
-   - Fill inspection checklist
-   - Attach photos if needed
-   - Submit before deadline
-   - 「報告書」セクションに移動
-   - 点検チェックリストを記入
-   - 必要に応じて写真を添付
-   - 期限前に提出
-
-### For Supervisors 監督者向け
-
-1. **Team Monitoring** チーム監視
-   - View all engineers' attendance on dashboard
-   - Check pending work entries requiring approval
-   - Monitor machinery inspection alerts
-   - ダッシュボードで全技術者の出勤状況を表示
-   - 承認が必要な保留中の作業記録を確認
-   - 機械点検アラートを監視
-
-2. **Task Assignment** タスク割り当て
-   - Select engineer from team list
-   - Assign tasks with deadlines and priorities
-   - Set recurring tasks for regular maintenance
-   - チームリストから技術者を選択
-   - 期限と優先度付きでタスクを割り当て
-   - 定期的なメンテナンスのための繰り返しタスクを設定
-
-3. **Report Approval** 報告書の承認
-   - Review submitted reports
-   - Add comments or request revisions
-   - Approve completed reports
-   - Generate weekly performance summaries
-   - 提出された報告書を確認
-   - コメントを追加または修正を要求
-   - 完了した報告書を承認
-   - 週次パフォーマンス概要を作成
+After that, the admin can create all other users from the app's **User Management** tab.
 
 ---
 
-## 🛠️ Technology Stack
+## Roadmap
 
-### Frontend フロントエンド
+### Phase 1 — Complete ✅
 
-- **Flutter 3.16** - Cross-platform framework
-- **Dart 3.2** - Programming language
-- **Material Design 3** - UI components with Japanese minimalism
+- [x] Public home screen with live-looking dashboard
+- [x] First-launch tutorial (4 slides, bilingual)
+- [x] GoRouter with auth redirect guards
+- [x] Engineer dashboard — all 5 tabs (Home, Tasks, Task Detail, Reports, Profile)
+- [x] Supervisor dashboard — all 4 tabs (Overview, Team, Approvals, Analytics)
+- [x] Admin dashboard — all 5 tabs (Overview, Users, Tasks, Issues, Reports)
+- [x] Real Firestore data throughout (no hardcoded values)
+- [x] Attendance check-in / check-out with late detection
+- [x] Issue reporting with severity levels
+- [x] Work entry submission and approval workflow
+- [x] Task assignment, progress tracking, and approval/rejection
+- [x] Bilingual EN/JP with runtime language toggle
+- [x] Firestore security rules (role-based)
+- [x] Push notification infrastructure (FCM)
+- [x] Deactivated account enforcement at login
 
-### Backend & Database バックエンドとデータベース
+### Phase 2 — Planned
 
-- **Firebase Authentication** - User management
-- **Cloud Firestore** - NoSQL database
-- **Firebase Security Rules** - Data protection
+- [ ] PDF report export (pdf + printing packages)
+- [ ] Excel data export
+- [ ] Photo attachments for work entries and issue reports
+- [ ] Offline support (Firestore persistence + sync indicator)
+- [ ] QR code scanning for equipment ID lookup
 
-### State Management & Architecture 状態管理とアーキテクチャ
+### Phase 3 — Future
 
-- **Provider** - State management
-- **Clean Architecture** - Separation of concerns
-- **Repository Pattern** - Data abstraction
-
-### Development Tools 開発ツール
-
-- **Android Studio** - Primary IDE
-- **Firebase Emulator Suite** - Local testing
-- **Git** - Version control
+- [ ] AI-assisted anomaly detection and predictive maintenance alerts
+- [ ] Electronic signature for report sign-off
+- [ ] ERP / SAP integration API
+- [ ] Web admin portal (Flutter Web)
+- [ ] Smartwatch companion (Apple Watch / Wear OS)
 
 ---
 
-## 🏗️ Development Guidelines
+## License & Contact
 
-### Code Structure コード構造
+This is proprietary software developed for Japanese engineering companies. All rights reserved.
+
+For demo access or business enquiries: **bhnbids@gmail.com**
+
+---
+
+---
+
+# 🇯🇵 日本語ガイド
+
+## 目次
+
+- [概要](#概要)
+- [アプリのフロー](#アプリのフロー)
+- [主な機能](#主な機能)
+- [ユーザーの役割と権限](#ユーザーの役割と権限)
+- [使い方 — 技術者（エンジニア）](#使い方--技術者エンジニア)
+- [使い方 — 監督者（スーパーバイザー）](#使い方--監督者スーパーバイザー)
+- [使い方 — 管理者（アドミン）](#使い方--管理者アドミン)
+- [技術スタック](#技術スタック)
+- [インストール方法](#インストール方法)
+- [ロードマップ](#ロードマップ)
+
+---
+
+## 概要
+
+**Tenken EngiFlow** は、Flutter と Firebase を使用して構築された、役割ベースのエンジニアリングタスク管理アプリケーションです。日本の現場エンジニアリングチームの日常業務（タスク割り当て、出勤管理、問題報告、分析）をデジタル化・効率化するために設計されています。
+
+このアプリは**ログインなしで公開ダッシュボードを閲覧できます**。初回起動時にはシステムを説明するガイドチュートリアルが表示され、右上の小さなログインボタンから認証済みユーザー（管理者、監督者、技術者）がパーソナライズされたダッシュボードにアクセスできます。
+
+---
+
+## アプリのフロー
 
 ```
-lib/
-├── core/           # App constants, themes, utilities
-├── data/           # Data layer (models, repositories)
-├── domain/         # Business logic (entities, use cases)
-└── presentation/   # UI layer (screens, widgets, providers)
+┌───────────────────────────────────────────────────────────────┐
+│                       アプリ起動                              │
+│                           ↓                                   │
+│                  スプラッシュ画面 (/)                          │
+│                           ↓                                   │
+│                 公開ホーム画面 (/home)                         │
+│           ┌─────────────────────────────┐                    │
+│           │ • 初回チュートリアルポップアップ│                  │
+│           │ • リアルタイム統計ダッシュボード│                 │
+│           │ • 緊急タスク一覧              │                   │
+│           │ • アクティブチーム表示        │                   │
+│           │ • 最新アクティビティ          │                   │
+│           │ • [ログイン] ボタン           │                   │
+│           └─────────────────────────────┘                    │
+│                           ↓                                   │
+│                 ログイン画面 (/login)                          │
+│          メール＋パスワード → 役割はFirebaseから自動判定       │
+│                           ↓                                   │
+│           ┌──────────────────────────────┐                   │
+│           │    役割ベースダッシュボード    │                   │
+│           │    /dashboard                 │                   │
+│           ├──────────────────────────────┤                   │
+│           │  👷 技術者ダッシュボード      │                   │
+│           │  👔 監督者ダッシュボード      │                   │
+│           │  🔑 管理者ダッシュボード      │                   │
+│           └──────────────────────────────┘                   │
+└───────────────────────────────────────────────────────────────┘
 ```
 
-### Japanese UI Principles 日本のUI原則
+---
 
-1. **Minimal Color Palette** - Use blues, greys, whites (企業カラーの青、グレー、白)
-2. **High Information Density** - Show relevant data efficiently (関連データを効率的に表示)
-3. **Clean Typography** - Clear hierarchy without decorative fonts (装飾的なフォントなしで明確な階層)
-4. **Consistent Spacing** - Use 8px grid system (8pxグリッドシステムを使用)
-5. **Intuitive Icons** - Standard Material icons with Japanese context (日本の文脈に合った標準Materialアイコン)
+## 主な機能
 
-### Security Considerations セキュリティ考慮事項
+### 🏠 公開ホーム画面（ログイン不要）
 
-- All API calls through Firebase secured endpoints
-- Role-based access control at Firestore rules level
-- Password hashing via Firebase Auth
-- No sensitive data in client-side storage
-- Firebaseセキュアエンドポイントを介した全APIコール
-- Firestoreルールレベルでの役割ベースアクセス制御
-- Firebase Authによるパスワードハッシュ化
-- クライアント側ストレージに機密データなし
+誰でも閲覧できるプロフェッショナルなダッシュボード画面です。
+
+| 要素                   | 説明                                                   |
+| ---------------------- | ------------------------------------------------------ |
+| **ヒーローバナー**     | 会社名、現在の日時、ライブ表示インジケーター           |
+| **統計グリッド**       | アクティブチーム数、緊急タスク数、承認待ち件数、出勤率 |
+| **緊急タスク**         | 担当者と期限付きの高優先度タスク                       |
+| **アクティブチーム**   | 現在どのチームがどこで作業しているか                   |
+| **最新アクティビティ** | タイムスタンプ付きのリアルタイムイベントフィード       |
+| **ログイン案内**       | 役割バッジ付きの目立つログインカード                   |
+
+### 🎓 初回起動チュートリアル
+
+初回起動時に4スライドのチュートリアルダイアログが自動表示されます：
+
+| スライド | 内容                                                    |
+| -------- | ------------------------------------------------------- |
+| 1        | **ようこそ** — システムの目的と概要                     |
+| 2        | **技術者向け** — タスク、チェックイン、報告書、問題報告 |
+| 3        | **監督者・管理者向け** — チーム管理、承認、分析         |
+| 4        | **始め方** — ログイン方法と役割の説明                   |
+
+チュートリアルはいつでも閉じられ、アプリバーの `?` アイコンから再度開けます。
+
+### 🔐 認証とセキュリティ
+
+- 役割ベースのログイン（1つのログイン画面、役割はFirebaseから自動読み込み）
+- 無効化されたアカウントはログイン時に即時ブロック
+- GoRouterリダイレクトが全認証済みルートを保護
+- Firestoreセキュリティルールが役割別データアクセスを強制
+- セカンダリFirebaseアプリパターンにより管理者セッションを維持しながら新規ユーザーを作成
 
 ---
 
-## 🔮 Future Enhancements 将来の拡張機能
+## ユーザーの役割と権限
 
-### Phase 2 (Next Release) フェーズ2 (次回リリース)
-
-- [ ] **Japanese/English language toggle** 日本語/英語言語切り替え
-- [ ] **Offline mode with sync** 同期付きオフラインモード
-- [ ] **QR code scanning for equipment** 設備用QRコードスキャン
-- [ ] **Photo attachment to reports** 報告書への写真添付
-- [ ] **Push notifications for alerts** アラートのプッシュ通知
-
-### Phase 3 フェーズ3
-
-- [ ] **GPS location tracking** GPS位置情報追跡
-- [ ] **Barcode generation for assets** 資産用バーコード生成
-- [ ] **Integration with accounting software** 会計ソフトウェアとの統合
-- [ ] **Advanced analytics dashboard** 高度な分析ダッシュボード
-- [ ] **API for third-party systems** サードパーティシステム用API
+| 機能                             | 👷 技術者 | 👔 監督者        | 🔑 管理者 |
+| -------------------------------- | --------- | ---------------- | --------- |
+| 公開ホーム画面の閲覧             | ✅        | ✅               | ✅        |
+| 自分のタスク確認                 | ✅        | ✅               | ✅        |
+| チェックイン・アウト             | ✅        | ✅               | ✅        |
+| 作業記録の提出                   | ✅        | ✅               | ✅        |
+| 問題報告                         | ✅        | ✅               | ✅        |
+| チームメンバーの確認             | ❌        | ✅（自部署のみ） | ✅        |
+| タスクの割り当て                 | ❌        | ✅               | ✅        |
+| 作業記録の承認・却下             | ❌        | ✅               | ✅        |
+| タスクの承認・却下               | ❌        | ✅               | ✅        |
+| チームの問題管理                 | ❌        | ✅               | ✅        |
+| チーム出勤分析の閲覧             | ❌        | ✅（自部署のみ） | ✅        |
+| ユーザーアカウントの作成・無効化 | ❌        | ❌               | ✅        |
+| 部署の管理                       | ❌        | ❌               | ✅        |
+| 全部署データの閲覧               | ❌        | ❌               | ✅        |
+| 全社分析の閲覧                   | ❌        | ❌               | ✅        |
 
 ---
 
-## 📄 License & Contributing ライセンスと貢献
+## 使い方 — 技術者（エンジニア）
 
-### License ライセンス
+技術者は現場の主役です。ログイン後は**5つのタブ**を持つ技術者ダッシュボードに移動します。
 
-This project is proprietary software developed for internal use by engineering companies. All rights reserved.
+### 🏠 ホームタブ
 
-本プロジェクトは、エンジニアリング会社の内部使用のために開発されたプロプライエタリソフトウェアです。すべての権利を保有します。
+- **出勤カード** — `チェックイン`をタップして出勤打刻。カードに出勤時刻と経過時間が表示されます。退勤時は`チェックアウト`をタップ（勤務時間が自動計算されます）。
+- **タスク状況グリッド** — 未開始・進行中・提出済・承認済の4つのカウンター。
+- **クイックアクション** — 作業記録と問題報告へのショートカットボタン。
+- **本日のタスク** — アクティブなタスクをすぐに確認できます。
 
-### Contributing 貢献
+### 📋 タスクタブ
 
-For bug reports or feature suggestions, please contact the development team at `bhnbids@gmail.com`.
+- フィルターチップバー：`すべて`・`未開始`・`進行中`・`提出済`・`完了`
+- 期限切れタスクには赤バッジが表示されます。
+- タスクカードをタップすると**タスク詳細画面**が開きます — 優先度・期限・説明・状況タイムラインを確認できます。
+- `作業開始` → `レビュー提出` → 監督者の承認待ち、という流れで進みます。
+- 却下された場合は、監督者の理由が表示されます。修正後に`再提出`できます。
 
-バグ報告や機能提案については、開発チーム `dev@tenken-engiflow.com` までご連絡ください。
+### 📊 レポートタブ（作業記録・問題報告）
+
+- **作業記録**サブタブ — `+`ボタンで日次作業を記録（日付・説明・時間・関連タスク）。
+- **問題報告**サブタブ — `+`ボタンで問題を報告（タイトル・説明・重要度・カテゴリー）。
+- すべての提出内容はFirestoreに保存され、監督者の**承認タブ**に表示されます。
+
+### 👤 プロフィールタブ
+
+- アカウント情報・役割バッジ・部署を確認できます。
+- 🇬🇧 英語 と 🇯🇵 日本語 の切り替えができます。
+- 確認ダイアログ付きのログアウト。
+
+---
+
+## 使い方 — 監督者（スーパーバイザー）
+
+監督者は部署のチームを統括します。ログイン後は**4つのタブ**を持つ監督者ダッシュボードに移動します。
+
+### 📊 概要タブ
+
+- **統計グリッド** — チーム規模・承認待ち件数・本日の出勤率・未解決問題数。
+- **クイックアクション** — 新規タスク割り当て・データ更新。
+- **最新アクティビティ** — チームのタスク更新・チェックイン・問題報告のタイムスタンプ付き一覧。
+
+### 👥 チームタブ
+
+- チームメンバーを名前で検索できます。
+- 各メンバーカードに部署・役割・クイックアクションボタンが表示されます。
+- **タスク割り当て** — ダイアログでタイトル・説明・優先度・期日・担当者を設定。
+- **出勤更新** — メンバーの出勤状況を手動で記録。
+- メンバーをタップすると**詳細シート**が開き、完全なプロフィールとタスク履歴が確認できます。
+
+### ✅ 承認タブ
+
+バッジカウント付きの3つのサブタブ：
+
+| サブタブ     | 表示内容                     | 操作                                        |
+| ------------ | ---------------------------- | ------------------------------------------- |
+| **タスク**   | レビュー待ちの提出済みタスク | 承認 / 却下（理由入力）                     |
+| **作業記録** | 提出された日次記録           | 承認 / 却下                                 |
+| **問題**     | 部署内の未解決問題           | チームメンバーへの割り当て / 解決済みにする |
+
+### 📈 分析タブ
+
+- 日付を選択してその日の出勤状況（出勤・遅刻・欠勤の内訳）を確認。
+- 承認待ち件数と問題概要。
+- 状況チップ付きの完全な出勤記録一覧。
+- 未解決の重大問題がある場合は警告が表示されます。
+
+---
+
+## 使い方 — 管理者（アドミン）
+
+管理者はシステム全体へのフルアクセスを持ちます。ログイン後は**5つのタブ**を持つ管理者ダッシュボードに移動します。
+
+### 📊 概要タブ
+
+- システム全体の統計：総ユーザー数（役割別）・タスク数（状況別）・問題数（状況別）。
+- 複数のFirestoreコレクションから取得した最新アクティビティフィード。
+
+### 👥 ユーザー管理タブ
+
+- **検索** — 名前またはメールでユーザーを検索。
+- **フィルター** — 役割別：すべて / 技術者 / 監督者 / 管理者。
+- **ユーザー追加** — 名前・メール・パスワード・役割・部署を設定。セカンダリFirebaseアプリを使用するため、管理者自身のセッションは維持されます。
+- **ユーザー編集** — 名前・部署・役割の変更。
+- **無効化** — アカウントを非アクティブに設定。ユーザーは次回ログイン時にブロックされます（データは保持）。
+
+### 📋 タスクタブ（管理者）
+
+- **全部署のタスク**を一覧表示。
+- タイトルで検索、状況と優先度でフィルター。
+- 各タスクカードに優先度バッジ・状況バッジ・期限切れフラグが表示されます。
+- `⋮`メニューからタスクの状況を直接変更できます。
+
+### ⚠️ 問題タブ（管理者）
+
+- **全部署の問題**を一覧表示。
+- 検索、状況・重要度でフィルター。
+- 迅速な確認のための重要度・状況バッジ。
+- `⋮`メニューから問題の状況を更新できます。
+
+### 📈 レポート・分析タブ
+
+- 以下の水平バーチャート（外部ライブラリ不要）：
+  - 役割別ユーザー分布
+  - タスク状況内訳
+  - 問題概要（状況別・重要度別）
+  - 部署別パフォーマンス内訳
+- エクスポート（PDF/Excel）はフェーズ2で実装予定。
+
+---
+
+## 技術スタック
+
+| レイヤー               | 技術                        | 詳細                                   |
+| ---------------------- | --------------------------- | -------------------------------------- |
+| **フロントエンド**     | Flutter 3.16+               | iOS・Android・Web対応                  |
+| **言語**               | Dart 3.2+                   | Null安全、強型付け                     |
+| **UI**                 | Material Design 3           | 日本のミニマリスト美学                 |
+| **状態管理**           | Provider 6.1                | 効率的なリアクティブUI                 |
+| **ルーティング**       | go_router 12                | ディープリンク対応、リダイレクトガード |
+| **バックエンド**       | Firebase Cloud Firestore    | リアルタイムNoSQL、東京リージョン      |
+| **認証**               | Firebase Auth 4.15          | メール/パスワード、セッション管理      |
+| **通知**               | Firebase Messaging 14       | プッシュ通知インフラ                   |
+| **国際化**             | Flutter l10n                | 日本語・英語、実行時切り替え           |
+| **ローカルストレージ** | shared_preferences          | チュートリアル表示フラグ、ユーザー設定 |
+| **セキュリティ**       | Firestoreセキュリティルール | 役割別データアクセス強制               |
+
+---
+
+## インストール方法
+
+### 前提条件
+
+- Flutter SDK 3.16以上
+- Android Studio / VS Code（Flutter拡張機能付き）
+- Firebaseアカウントと設定済みプロジェクト
+
+### セットアップ手順
+
+```bash
+# 1. リポジトリをクローン
+git clone https://github.com/your-org/tenken_engiflow.git
+cd tenken_engiflow
+
+# 2. 依存関係をインストール
+flutter pub get
+
+# 3. Firebaseの設定ファイルを配置
+#    Android: android/app/google-services.json
+#    iOS:     ios/Runner/GoogleService-Info.plist
+
+# 4. Firestoreセキュリティルールをデプロイ
+firebase deploy --only firestore:rules
+
+# 5. アプリを実行
+flutter run
+```
+
+### 最初の管理者アカウント
+
+Firebase Consoleで最初の管理者を直接作成します：
+
+1. **Authentication** → ユーザーを追加（メール＋パスワード）
+2. **Firestore** → `users`コレクション → ユーザーの`uid`でドキュメントを作成：
+
+```json
+{
+  "uid": "<firebase-auth-uid>",
+  "email": "admin@yourcompany.co.jp",
+  "displayName": "管理者",
+  "role": "admin",
+  "department": "システム管理部",
+  "isActive": true,
+  "createdAt": "<timestamp>"
+}
+```
+
+その後、管理者はアプリの**ユーザー管理**タブから他のすべてのユーザーを作成できます。
+
+---
+
+## ロードマップ
+
+### フェーズ 1 — 完了 ✅
+
+- [x] ライブダッシュボード付き公開ホーム画面
+- [x] 初回起動チュートリアル（4スライド、バイリンガル）
+- [x] 認証リダイレクトガード付きGoRouter
+- [x] 技術者ダッシュボード — 全5タブ（ホーム・タスク・タスク詳細・レポート・プロフィール）
+- [x] 監督者ダッシュボード — 全4タブ（概要・チーム・承認・分析）
+- [x] 管理者ダッシュボード — 全5タブ（概要・ユーザー・タスク・問題・レポート）
+- [x] 全画面でリアルFirestoreデータを使用（ハードコードなし）
+- [x] 遅刻検知付き出勤チェックイン・アウト
+- [x] 重要度レベル付き問題報告
+- [x] 作業記録の提出・承認ワークフロー
+- [x] タスク割り当て・進捗管理・承認/却下
+- [x] 実行時言語切り替え付き日英バイリンガル対応
+- [x] Firestoreセキュリティルール（役割ベース）
+- [x] プッシュ通知インフラ（FCM）
+- [x] ログイン時の無効化アカウント検知
+
+### フェーズ 2 — 予定
+
+- [ ] PDFレポートエクスポート（pdf + printingパッケージ）
+- [ ] Excelデータエクスポート
+- [ ] 作業記録・問題報告への写真添付
+- [ ] オフラインサポート（Firestoreの永続化＋同期インジケーター）
+- [ ] 設備IDルックアップ用QRコードスキャン
+
+### フェーズ 3 — 将来
+
+- [ ] AI活用の異常検知・予知保全アラート
+- [ ] 報告書承認用電子署名
+- [ ] ERP / SAP連携API
+- [ ] Web管理ポータル（Flutter Web）
+- [ ] スマートウォッチ対応（Apple Watch / Wear OS）
+
+---
+
+## ライセンスとお問い合わせ
+
+これは日本のエンジニアリング会社向けに開発されたプロプライエタリソフトウェアです。すべての権利を保有します。
+
+デモアクセスやビジネスお問い合わせ: **bhnbids@gmail.com**
 
 ---
 
 <div align="center">
 
-**Developed with precision for Japanese engineering excellence** by **_Hossain Billal_** (ビラル ホセイン)
+**Developed with precision for Japanese engineering excellence**  
 **日本のエンジニアリング優秀性のために精密に開発**
 
-© 2026 Tenken EngiFlow. All rights reserved.
+by **Hossain Billal** (ビラル・ホセイン)
+
+© 2026 Tenken EngiFlow. All rights reserved. 全著作権所有.
+
+---
+
+_Tenken EngiFlow — 現場力を、デジタルへ。_  
+_Bringing Field Power into the Digital Age._
 
 </div>
-
----
-
-🎯 ROLE-BASED ARCHITECTURE PLAN
-Role Definitions & Permissions:
-
-Role - Dashboard Focus - Features - Access Level
-
-Engineer - Task execution Daily work entries, inspections, personal - reports - Personal data only
-
-Supervisor - Team oversight Team progress, report approval, task assignment - Team-level access
-
-Admin - System management User management, analytics, system configuration - Full system access
-
----
-
-📱 TESTING DIFFERENT ROLES:
-To test different roles, you'll need to:
-
-Register multiple users with different roles
-
-Check Firebase Console to verify role assignment
-
-Logout and login with different accounts
-
-Example Test Users:
-
-Engineer: engineer@tenken.com / Password123
-
-Supervisor: supervisor@tenken.com / Password123
-
-Admin: admin@tenken.com / Password123
-
----
-
-Tenken EngiFlow — Production Architecture Plan
-
-Honest Assessment: What's Real vs. What's Stubbed
-
-Before planning, you need to know the actual state of the codebase.
-
-Genuinely Working (Real Firestore calls)
-
-┌──────────────────────────────────────────┬─────────┐
-│ Feature │ Status │
-├──────────────────────────────────────────┼─────────┤
-│ Firebase Auth (login/register/session) │ Working │
-├──────────────────────────────────────────┼─────────┤
-│ Admin: User CRUD + search/filter │ Working │
-├──────────────────────────────────────────┼─────────┤
-│ Admin: Department CRUD │ Working │
-├──────────────────────────────────────────┼─────────┤
-│ Admin: System config read/write │ Working │
-├──────────────────────────────────────────┼─────────┤
-│ Supervisor: Load team members │ Working │
-├──────────────────────────────────────────┼─────────┤
-│ Supervisor: Assign task + approve/reject │ Working │
-├──────────────────────────────────────────┼─────────┤
-│ Supervisor: Attendance update │ Working │
-├──────────────────────────────────────────┼─────────┤
-│ Bilingual i18n (EN/JP) │ Working │
-└──────────────────────────────────────────┴─────────┘
-
-Stubbed / Hardcoded / Empty
-
-┌───────────────────────────────────────┬──────────────────────────────────────────────────┐
-│ Feature │ Problem │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Reports & Analytics │ Hardcoded 94%, 87% — no Firestore queries │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ PDF/Excel Export │ Just shows a Snackbar │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Engineer "New Entry" / "Report Issue" │ onTap: () {} — does nothing │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Engineer attendance check-in │ Shows "Checked in 08:30" — hardcoded string │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Engineer task list │ No tasks Firestore collection wired to engineers │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Supervisor Analytics tab │ Every metric is hardcoded │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ GoRouter │ app_router.dart is a placeholder, unused │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Audit logging │ Zero implementation │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Push notifications │ Toggle UI only — no FCM │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Email notifications │ Toggle UI only — no service │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Admin task overview │ Doesn't exist │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Issue/inspection tracking │ Model missing, no screen │
-├───────────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Daily work entry log │ Model missing, no screen │
-└───────────────────────────────────────┴──────────────────────────────────────────────────┘
-
----
-
-Target Architecture
-
-tenken_engiflow/
-├── lib/
-│ ├── core/
-│ │ ├── constants/ roles.dart, routes.dart, colors.dart
-│ │ ├── errors/ app_exception.dart
-│ │ ├── extensions/ datetime_ext.dart, string_ext.dart
-│ │ ├── services/ auth_service.dart, fcm_service.dart,
-│ │ │ audit_service.dart, export_service.dart
-│ │ ├── themes/ app_theme.dart
-│ │ └── utils/ validators.dart, date_utils.dart
-│ │
-│ ├── data/
-│ │ ├── models/ user_model.dart, task_model.dart,
-│ │ │ issue_model.dart, work_entry_model.dart,
-│ │ │ attendance_model.dart, audit_log_model.dart,
-│ │ │ system_config_model.dart, notification_model.dart
-│ │ ├── repositories/ user_repo.dart, task_repo.dart,
-│ │ │ issue_repo.dart, attendance_repo.dart,
-│ │ │ analytics_repo.dart
-│ │ └── datasources/ firestore_datasource.dart
-│ │
-│ ├── domain/
-│ │ └── entities/ (mirror of models, pure Dart)
-│ │
-│ ├── presentation/
-│ │ ├── providers/ auth_provider.dart, admin_provider.dart,
-│ │ │ task_provider.dart, issue_provider.dart,
-│ │ │ attendance_provider.dart, analytics_provider.dart,
-│ │ │ supervisor_provider.dart, locale_provider.dart
-│ │ ├── router/ app_router.dart (GoRouter, real implementation)
-│ │ ├── screens/
-│ │ │ ├── auth/ login_screen.dart, register_screen.dart
-│ │ │ ├── engineer/ engineer_home.dart, task_list_screen.dart,
-│ │ │ │ task_detail_screen.dart, check_in_screen.dart,
-│ │ │ │ work_entry_screen.dart, issue_report_screen.dart
-│ │ │ ├── supervisor/ supervisor_home.dart, team_screen.dart,
-│ │ │ │ approvals_screen.dart, team_analytics_screen.dart
-│ │ │ └── admin/ admin_home.dart, overview_tab.dart,
-│ │ │ user_mgmt_tab.dart, task_mgmt_tab.dart,
-│ │ │ issue_mgmt_tab.dart, analytics_tab.dart,
-│ │ │ system_config_tab.dart, audit_log_tab.dart
-│ │ ├── components/ (existing + chart_widget.dart, audit_tile.dart,
-│ │ │ issue_card.dart, work_entry_card.dart)
-│ │ └── widgets/
-│ │
-│ ├── l10n/
-│ └── firebase_options.dart
-
----
-
-Firestore Schema (Production)
-
-users/{uid}
-uid, email, displayName, role, department,
-supervisorId, teamMemberIds, managedDepartments,
-fcmToken, isActive, lastLoginAt, createdAt
-
-tasks/{taskId}
-id, title, description, category,
-assignedTo (uid), assignedBy (uid), department,
-priority (low|medium|high|urgent),
-status (pending|in_progress|submitted|approved|rejected|overdue),
-dueDate, createdAt, updatedAt,
-completionNote, rejectionReason,
-attachments (List<String> — Storage URLs),
-approvedBy (uid), approvedAt
-
-work_entries/{entryId}
-id, engineerId, date, taskId (nullable),
-description, hoursWorked, location,
-status (draft|submitted|approved),
-supervisorId, createdAt
-
-issues/{issueId}
-id, reportedBy (uid), department,
-title, description, severity (low|medium|high|critical),
-status (open|in_progress|resolved|closed),
-assignedTo (uid, nullable), category,
-attachments, createdAt, updatedAt, resolvedAt
-
-attendance/{attendanceId}
-id, userId, date (YYYY-MM-DD),
-checkIn (Timestamp), checkOut (Timestamp),
-status (present|absent|late|half_day|leave),
-notes, recordedBy (uid — supervisor or self)
-
-audit_logs/{logId}
-id, actorId, actorRole, action,
-targetCollection, targetId,
-before (Map), after (Map),
-timestamp, ipAddress (if available)
-
-departments/{deptId}
-id, name, description, supervisorIds,
-teamMemberIds, isActive, createdAt
-
-notifications/{notifId}
-id, recipientId, title, body,
-type (task_assigned|task_approved|issue_reported|etc),
-relatedId, isRead, createdAt
-
-system_config/default
-(existing fields + auditRetentionDays, maxFileUploadMB)
-
-analytics_cache/{period}
-period (2026-05, 2026-Q2, etc.), generatedAt,
-totalTasks, completedTasks, completionRate,
-avgAttendanceRate, issuesOpen, issuesClosed,
-departmentStats (Map<deptId, DeptStats>)
-
----
-
-Dependency Additions Required
-
-# Charts (no extra package needed for basic — use fl_chart)
-
-fl_chart: ^0.69.0
-
-# File Export
-
-pdf: ^3.11.1
-printing: ^5.13.1 # PDF print/share
-excel: ^4.0.6 # Excel export
-
-# File Storage & Picker
-
-firebase_storage: ^11.7.7
-image_picker: ^1.1.2
-file_picker: ^8.0.7
-
-# Push Notifications
-
-firebase_messaging: ^14.9.4
-flutter_local_notifications: ^17.2.2
-
-# Date Formatting
-
-intl: ^0.20.2 # already present
-
-# Connectivity
-
-connectivity_plus: ^6.0.3
-
-# Secure Storage (for offline auth token)
-
-flutter_secure_storage: ^9.2.2
-
----
-
-Prioritized Build Roadmap
-
-Phase 2 — Core Engineer Workflow (Highest Priority, ~3 weeks)
-
-These are the features engineers use daily. Nothing works end-to-end without them.
-
-2A — Attendance (Check-in / Check-out)
-
-- check_in_screen.dart: tap to clock in, tap to clock out, shows today's status
-- Writes to attendance/{autoId} in Firestore
-- AttendanceProvider: streams today's record for the current user
-- Engineer dashboard shows real check-in time (not hardcoded "08:30")
-
-2B — Task List + Task Detail (Engineer view)
-
-- task_list_screen.dart: streams tasks where assignedTo == currentUser.uid
-- Filter by status tabs: All / Pending / In Progress / Completed
-- task_detail_screen.dart: view task, update status to in_progress → submitted, add completion note + optional photo
-- TaskProvider: streams tasks for current user, updates status
-
-2C — Work Entry / Daily Log
-
-- work_entry_screen.dart: date, description, hours worked, linked task (optional)
-- Lists today's and recent entries
-- WorkEntryProvider: CRUD against work_entries collection
-
-2D — Issue Reporting
-
-- issue_report_screen.dart: title, description, severity, category, optional photo
-- IssueModel + IssueProvider
-- Writes to issues collection, notifies supervisor
-
----
-
-Phase 3 — Supervisor Workflow Completion (~2 weeks)
-
-3A — Wire real analytics data
-
-- Replace all hardcoded % in supervisor analytics with Firestore aggregation queries
-- Use where + count() for task completion rates
-- Stream attendance records for department with real date range
-
-3B — Issue Management for Supervisors
-
-- View all open issues in their department
-- Assign issues to team members
-- Mark as resolved
-
-3C — Team Reports tab (functional)
-
-- Real PDF generation: team performance report per date range using pdf package
-- Download/share via printing package
-
-3D — Approval workflow completion
-
-- Reports tab: approve submitted work entries
-- Requests tab: approve leave requests
-
----
-
-Phase 4 — Admin Panel Completion (~2 weeks)
-
-4A — Real Analytics Backend
-
-- AnalyticsProvider + AnalyticsRepository
-- Aggregate queries against tasks, attendance, issues collections
-- Cache results to analytics_cache collection (avoid re-running on every open)
-- Replace hardcoded 94%/87% with real computed values
-- Add fl_chart bar/pie charts for: task status distribution, attendance by department, issues by severity
-
-4B — Task Management Tab (Admin)
-
-- Admin sees ALL tasks across all departments
-- Filter by department, status, date, priority
-- Can reassign or close any task
-- Bulk operations: mark multiple tasks as overdue
-
-4C — Issue Tracker Tab (Admin)
-
-- Cross-department issue overview
-- Severity heat map (by department)
-- Escalation controls
-
-4D — Audit Log Tab (Admin)
-
-- AuditService: every write operation in AdminProvider records to audit_logs
-- audit_log_tab.dart: filterable list by actor, action, date range
-- Export audit log as CSV
-
-4E — PDF/Excel Export (Real)
-
-- Implement ExportService with pdf and excel packages
-- Reports tab: generate real PDF report from Firestore data
-- Download to device or share
-
----
-
-Phase 5 — Notifications, Security, GoRouter (~1 week)
-
-5A — GoRouter (real implementation)
-final router = GoRouter(routes: [
-GoRoute(path: '/login', builder: ...),
-GoRoute(path: '/engineer', builder: ..., routes: [
-GoRoute(path: 'tasks', builder: ...),
-GoRoute(path: 'tasks/:id', builder: ...),
-GoRoute(path: 'check-in', builder: ...),
-GoRoute(path: 'issue/new', builder: ...),
-]),
-GoRoute(path: '/supervisor', builder: ..., routes: [...]),
-GoRoute(path: '/admin', builder: ..., routes: [...]),
-]);
-Replace the current bottom-nav tab-switch pattern with real named routes so deep links and notification taps work.
-
-5B — Firebase Cloud Messaging
-
-- FcmService: initialize, request permission, store token to user doc
-- Background message handler: show local notification
-- Tap notification → deep link to relevant screen via GoRouter
-- Triggers: task assigned, task approved/rejected, issue reported, system alert
-
-5C — Firestore Security Rules
-rules_version = '2';
-service cloud.firestore {
-match /databases/{database}/documents {
-match /users/{uid} {
-allow read: if request.auth.uid == uid
-|| isAdmin() || isSupervisor();
-allow write: if isAdmin();
-allow update: if request.auth.uid == uid
-&& !affectsRole();
-}
-match /tasks/{taskId} {
-allow read: if isAdmin() || isSupervisor()
-|| resource.data.assignedTo == request.auth.uid;
-allow create: if isSupervisor() || isAdmin();
-allow update: if isAdmin() || isSupervisor()
-|| (resource.data.assignedTo == request.auth.uid
-&& onlyStatusUpdate());
-}
-match /audit_logs/{logId} {
-allow read, write: if isAdmin();
-}
-// ... etc.
-}
-}
-
-5D — createUserWithEmailAndPassword bug fix (Critical)
-
-The current AdminProvider.createNewUser() calls createUserWithEmailAndPassword which signs out the current admin and signs in as the new user. You must use Firebase Admin SDK (Cloud Function) or the secondary app pattern:
-
-// Fix: use a secondary FirebaseApp instance
-final secondaryApp = await Firebase.initializeApp(
-name: 'secondary', options: Firebase.app().options);
-final secondaryAuth = FirebaseAuth.instanceFor(app: secondaryApp);
-final cred = await secondaryAuth.createUserWithEmailAndPassword(...);
-await secondaryApp.delete();
-
-This is a production-blocking bug.
-
----
-
-Phase 6 — Polish & Production Hardening (~1 week)
-
-- Offline support: Firestore.instance.settings = Settings(persistenceEnabled: true)
-- Error boundaries: global FlutterError.onError handler
-- Loading skeletons instead of blank screens during data fetch
-- Form validation across all dialogs (currently inconsistent)
-- Enable NotoSansJP font registration in pubspec.yaml (currently commented out)
-- Firebase App Check integration
-- Performance: add Firestore indexes for compound queries
-- CI/CD: GitHub Actions → flutter test + flutter build apk
-
----
-
-Admin Panel — Final Complete Tab Set
-
-┌──────────────────────┬───────────────────────────┬──────────┐
-│ Tab │ Current State │ Phase │
-├──────────────────────┼───────────────────────────┼──────────┤
-│ Overview │ Stats from real Firestore │ Done │
-├──────────────────────┼───────────────────────────┼──────────┤
-│ User Management │ Full CRUD — working │ Done │
-├──────────────────────┼───────────────────────────┼──────────┤
-│ Task Management │ Missing entirely │ Phase 4B │
-├──────────────────────┼───────────────────────────┼──────────┤
-│ Issue Tracker │ Missing entirely │ Phase 4C │
-├──────────────────────┼───────────────────────────┼──────────┤
-│ Reports & Analytics │ UI only, fake data │ Phase 4A │
-├──────────────────────┼───────────────────────────┼──────────┤
-│ System Configuration │ Working │ Done │
-├──────────────────────┼───────────────────────────┼──────────┤
-│ Audit Log │ Missing entirely │ Phase 4D │
-├──────────────────────┼───────────────────────────┼──────────┤
-│ Permissions │ Matrix UI only │ Phase 5C │
-└──────────────────────┴───────────────────────────┴──────────┘
-
----
-
-Recommended Build Order
-
-Week 1-2: Phase 2A + 2B — Check-in screen + real task flow for engineers
-Week 3: Phase 2C + 2D — Work entries + issue reporting
-Week 4-5: Phase 3A-3D — Supervisor analytics wired + approvals complete
-Week 6-7: Phase 4A-4E — Real admin analytics, task/issue tabs, audit log, export
-Week 8: Phase 5A-5D — GoRouter + FCM + security rules + createUser bug fix
-Week 9: Phase 6 — Offline, error handling, CI/CD, performance
